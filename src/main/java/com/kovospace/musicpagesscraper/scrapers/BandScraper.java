@@ -1,21 +1,23 @@
 package com.kovospace.musicpagesscraper.scrapers;
 
+import com.kovospace.musicpagesscraper.interfaces.BandScraperInterface;
 import com.kovospace.musicpagesscraper.models.Band;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BandScraper extends MainScrapper {
-
-    @Autowired
-    protected Band band;
+public abstract class BandScraper extends MainScrapper implements BandScraperInterface {
 
     public BandScraper() { super(); }
 
-    protected abstract Band scrape(String slug);
-
     public String getBand(String slug) {
-        band.setSlug(slug);
-        return outputJson(
-                scrape(slug)
-        );
+        getDocument( requestUrl(slug) );
+        init();
+        return outputJson(new Band(
+            title(),
+            imageUrl(),
+            href(),
+            slug,
+            genre(),
+            city(),
+            tracks()
+        ));
     }
 }

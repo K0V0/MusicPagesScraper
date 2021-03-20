@@ -17,6 +17,14 @@ public class Bands {
         bands = new ArrayList<>();
     }
 
+    public Bands(List<Band> bands, int currentPageItemsCount, int pagesCount, int currentPageNum, int totalItemsCount) {
+        this.bands = bands;
+        this.currentPageItemsCount = currentPageItemsCount;
+        this.pagesCount = pagesCount;
+        this.currentPageNum = currentPageNum;
+        this.totalItemsCount = totalItemsCount;
+    }
+
     public void add(Band band) {
         bands.add(band);
     }

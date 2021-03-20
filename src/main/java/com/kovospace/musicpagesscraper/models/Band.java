@@ -27,6 +27,16 @@ public class Band {
         this.tracks = new ArrayList<>();
     }
 
+    public Band(String title, String imageUrl, String href, String slug, String genre, String city, List<Track> tracks) {
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.href = href;
+        this.slug = slug;
+        this.genre = genre;
+        this.city = city;
+        this.tracks = tracks;
+    }
+
     public List<Track> getTracks() {
         return tracks;
     }

@@ -1,32 +1,32 @@
 package com.kovospace.musicpagesscraper.models;
 
 public class Track {
-    private String full_title;
+    private String fullTitle;
     private String title;
     private String album;
-    private String plays_count;
+    private String playsCount;
     private String href;
-    private String href_hash;
+    private String hrefHash;
     private String duration;
 
     public Track() {}
 
-    public Track(String full_title, String title, String album, String plays_count, String href, String href_hash, String duration) {
-        this.full_title = full_title;
+    public Track(String fullTitle, String title, String album, String playsCount, String href, String hrefHash, String duration) {
+        this.fullTitle = fullTitle;
         this.title = title;
         this.album = album;
-        this.plays_count = plays_count;
+        this.playsCount = playsCount;
         this.href = href;
-        this.href_hash = href_hash;
+        this.hrefHash = hrefHash;
         this.duration = duration;
     }
 
-    public String getFull_title() {
-        return full_title;
+    public String getFullTitle() {
+        return fullTitle;
     }
 
-    public void setFull_title(String full_title) {
-        this.full_title = full_title;
+    public void setFullTitle(String fullTitle) {
+        this.fullTitle = fullTitle;
     }
 
     public String getTitle() {
@@ -45,12 +45,12 @@ public class Track {
         this.album = album;
     }
 
-    public String getPlays_count() {
-        return plays_count;
+    public String getPlaysCount() {
+        return playsCount;
     }
 
-    public void setPlays_count(String plays_count) {
-        this.plays_count = plays_count;
+    public void setPlaysCount(String playsCount) {
+        this.playsCount = playsCount;
     }
 
     public String getHref() {
@@ -61,12 +61,12 @@ public class Track {
         this.href = href;
     }
 
-    public String getHref_hash() {
-        return href_hash;
+    public String getHrefHash() {
+        return hrefHash;
     }
 
-    public void setHref_hash(String href_hash) {
-        this.href_hash = href_hash;
+    public void setHrefHash(String hrefHash) {
+        this.hrefHash = hrefHash;
     }
 
     public String getDuration() {

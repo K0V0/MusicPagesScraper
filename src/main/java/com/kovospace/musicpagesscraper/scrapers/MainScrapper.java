@@ -29,7 +29,7 @@ public abstract class MainScrapper {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return "error";
+        return "no-data-or-error";
     }
 
 }
