@@ -8,7 +8,7 @@ import java.util.List;
 @Component
 public class Band {
     private String title;
-    private String image_url;
+    private String imageUrl;
     private String href;
     private String slug;
     private String genre;
@@ -17,9 +17,9 @@ public class Band {
 
     public Band() {}
 
-    public Band(String title, String image_url, String href, String slug, String genre, String city) {
+    public Band(String title, String imageUrl, String href, String slug, String genre, String city) {
         this.title = title;
-        this.image_url = image_url;
+        this.imageUrl = imageUrl;
         this.href = href;
         this.slug = slug;
         this.genre = genre;
@@ -35,8 +35,8 @@ public class Band {
         return title;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getHref() {
@@ -63,8 +63,8 @@ public class Band {
         this.title = title;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setHref(String href) {

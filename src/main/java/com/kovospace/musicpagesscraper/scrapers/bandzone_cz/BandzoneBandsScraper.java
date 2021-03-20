@@ -1,29 +1,68 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
 import com.kovospace.musicpagesscraper.models.Band;
-import com.kovospace.musicpagesscraper.models.Bands;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BandzoneBandsScraper extends BandsScraper {
+    private Element bandsContainer;
+    private Elements bandContainers;
+    private Element paginator;
 
     public BandzoneBandsScraper() { super(); }
 
     @Override
-    protected Bands scrape(String searchedBand, String pageNum) {
-        Element bandsContainer;
-        Elements bandContainers;
-        Element paginator;
+    public String requestUrl(String searchedBand, String pageNum) {
+        return String.format("https://bandzone.cz/kapely.html?q=%s&p=%s", searchedBand, pageNum);
+    }
 
-        getDocument(
-            String.format("https://bandzone.cz/kapely.html?q=%s&p=%s", searchedBand, pageNum)
-        );
-
+    @Override
+    public void init() {
         bandsContainer = document.getElementById("searchResults");
         bandContainers = bandsContainer.getElementsByClass("profileLink");
+        paginator = document.getElementsByClass("paginator").first();
+    }
+
+    @Override
+    public int pageNum() {
+        if (paginator == null) {
+            return 1;
+        } else {
+            return Integer.parseInt(paginator.getElementsByClass("current").first().text());
+        }
+    }
+
+    @Override
+    public int pageItemsCount() {
+        return bandContainers.size();
+    }
+
+    @Override
+    public int pagesCount() {
+        if (paginator == null) {
+            return 1;
+        } else {
+            return Integer.parseInt(paginator.attr("data-paginator-pages"));
+        }
+    }
+
+    @Override
+    public int totalItemsCount() {
+        if (paginator == null) {
+            return pageItemsCount();
+        } else {
+            return Integer.parseInt(paginator.attr("data-paginator-items"));
+        }
+    }
+
+    @Override
+    public List<Band> bands() {
+        List<Band> bands = new ArrayList<>();
         for (Element bandContainer : bandContainers) {
             bands.add(new Band(
                 bandContainer.getElementsByTag("h4").first().text(),
@@ -34,26 +73,7 @@ public class BandzoneBandsScraper extends BandsScraper {
                 bandContainer.getElementsByClass("city").first().text()
             ));
         }
-
-        bands.setItems_current_page(bands.getBands().size());
-
-        paginator = document.getElementsByClass("paginator").first();
-        if (paginator == null) {
-            bands.setPages_count(1);
-            bands.setCurrent_page(1);
-            bands.setItems_total(bands.getBands().size());
-        } else {
-            bands.setCurrent_page(
-                    Integer.parseInt(paginator.getElementsByClass("current").first().text())
-            );
-            bands.setPages_count(
-                    Integer.parseInt(paginator.attr("data-paginator-pages"))
-            );
-            bands.setItems_total(
-                    Integer.parseInt(paginator.attr("data-paginator-items"))
-            );
-        }
-
         return bands;
     }
+
 }

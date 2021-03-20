@@ -8,10 +8,10 @@ import java.util.List;
 @Component
 public class Bands {
     private List<Band> bands;
-    private int items_current_page;
-    private int pages_count;
-    private int current_page;
-    private int items_total;
+    private int currentPageItemsCount;
+    private int pagesCount;
+    private int currentPageNum;
+    private int totalItemsCount;
 
     public Bands() {
         bands = new ArrayList<>();
@@ -25,35 +25,39 @@ public class Bands {
         return bands;
     }
 
-    public int getItems_current_page() {
-        return items_current_page;
+    public int getCurrentPageItemsCount() {
+        return currentPageItemsCount;
     }
 
-    public int getPages_count() {
-        return pages_count;
+    public int getPagesCount() {
+        return pagesCount;
     }
 
-    public int getCurrent_page() {
-        return current_page;
+    public int getCurrentPageNum() {
+        return currentPageNum;
     }
 
-    public int getItems_total() {
-        return items_total;
+    public int getTotalItemsCount() {
+        return totalItemsCount;
     }
 
-    public void setItems_current_page(int items_current_page) {
-        this.items_current_page = items_current_page;
+    public void setBands(List<Band> bands) {
+        this.bands = bands;
     }
 
-    public void setPages_count(int pages_count) {
-        this.pages_count = pages_count;
+    public void setCurrentPageItemsCount(int currentPageItemsCount) {
+        this.currentPageItemsCount = currentPageItemsCount;
     }
 
-    public void setCurrent_page(int current_page) {
-        this.current_page = current_page;
+    public void setPagesCount(int pagesCount) {
+        this.pagesCount = pagesCount;
     }
 
-    public void setItems_total(int items_total) {
-        this.items_total = items_total;
+    public void setCurrentPageNum(int currentPageNum) {
+        this.currentPageNum = currentPageNum;
+    }
+
+    public void setTotalItemsCount(int totalItemsCount) {
+        this.totalItemsCount = totalItemsCount;
     }
 }

@@ -2,10 +2,8 @@ package com.kovospace.musicpagesscraper.scrapers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kovospace.musicpagesscraper.models.Bands;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 

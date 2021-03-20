@@ -40,7 +40,7 @@ public class BandzoneBandScraper extends BandScraper {
             genreAndCity.split("\\/")[1].trim()
         );
         band.setTitle(title);
-        band.setImage_url(
+        band.setImageUrl(
             document.getElementById("profilePhoto")
                 .getElementsByTag("img").first()
                 .attr("src")
