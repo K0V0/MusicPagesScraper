@@ -3,7 +3,9 @@ package com.kovospace.musicpagesscraper.scrapers;
 import com.kovospace.musicpagesscraper.interfaces.BandScraperInterface;
 import com.kovospace.musicpagesscraper.models.Band;
 
-public abstract class BandScraper extends MainScrapper implements BandScraperInterface {
+public abstract class BandScraper
+                extends MainScraper
+                implements BandScraperInterface {
 
     public BandScraper() { super(); }
 

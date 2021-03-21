@@ -1,6 +1,8 @@
 package com.kovospace.musicpagesscraper.models;
 
-public class Track {
+import com.kovospace.musicpagesscraper.interfaces.TracklistItemInterface;
+
+public class Track implements TracklistItemInterface {
     private String fullTitle;
     private String title;
     private String album;

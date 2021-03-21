@@ -7,11 +7,11 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-public abstract class MainScrapper {
+public abstract class MainScraper {
     protected Document document;
     protected ObjectMapper mapper;
 
-    public MainScrapper() {
+    public MainScraper() {
         mapper = new ObjectMapper();
     }
 
