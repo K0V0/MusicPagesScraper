@@ -125,6 +125,13 @@ output:
 }
 ```
 
+## Development.log
+
+| Day | Task(s) of the day |
+| --- | --- |
+| 20.mar.2021 | only base structure of the app |
+| 21.mar.2021 | added Bandzone.cz support, readmes for repo, deploying app on VPS |
+| 22.mar.2021 | support for Freeteknomusic.org - only bands listing part |
 
 
 
