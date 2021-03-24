@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.interfaces;
 
+import com.kovospace.musicpagesscraper.models.ScraperItem;
 import com.kovospace.musicpagesscraper.models.Track;
 
 import java.util.List;

@@ -5,7 +5,6 @@ import com.kovospace.musicpagesscraper.models.ScraperItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +14,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class FreeTeknoMusicScraper {
-    public static final String URL = "http://archive.freeteknomusic.org";
-    private Pattern mp3filePattern = Pattern.compile("\\.mp3$");
-    //private Pattern mp3filePattern2 = Pattern.compile("\\.mp3$");
-    private Pattern directoryPatternFix = Pattern.compile("[^/]+$");
+    public static final Pattern mp3filePattern = Pattern.compile("\\.mp3$");
+    public static final Pattern fullAdressPattern = Pattern.compile("^http://|^https://");
+    public static final Pattern directoryPatternFix = Pattern.compile("[^/]+$");
     private Pattern excludePattern;
     private Matcher matcher;
 
@@ -30,40 +28,25 @@ public class FreeTeknoMusicScraper {
         this.excludePattern = pattern;
     }
 
-    // opravit ConcurrentModificationException
-
     public List<ScraperItem> scrape(String url) {
-        //Pattern mp3filePattern = Pattern.compile("\\.mp3$|\\/$");
-        //Pattern directoryPatternFix = Pattern.compile("[^/]+$");
         List<ScraperItem> results = new ArrayList<>();
-        //System.out.println(url);
         Document document;
         try {
             document = Jsoup.connect(url).get();
-            //System.out.println(document);
-            System.out.println(url);
             results = scrape(document, "", url);
-            //System.out.println(results);
-            results.remove(0);
+            results.remove(0); // folder up, infinite loop
+            List<ScraperItem> results2 = new ArrayList<>();
             for (ScraperItem result : results) {
-                //System.out.println(result.getHref());
                 if (!mp3filePattern.matcher(result.getHref()).find()) {
-                    //results.addAll(scrape((result.getHref())));
                     matcher = directoryPatternFix.matcher(result.getHref());
                     if (matcher.find()) {
-                        //System.out.println(matcher.group(0));
-                        //System.out.println(url + "/" + matcher.group(0));
-                        //System.out.println(url + "/" + UrlHelper.decode( matcher.group(0) ) );
-                        String u = url + "/" + UrlHelper.decode( matcher.group(0) );
-                        //System.out.println(scrape( url + "/" + matcher.group(0) ));
-                        results.addAll(scrape(u));
+                        results2.addAll(
+                            scrape(url + "/" + UrlHelper.decode( matcher.group(0)))
+                        );
                     }
-                    //System.out.println(result.getHref());
-
-                } else {
-                    //results.add()
                 }
             }
+            results.addAll(results2);
         } catch (IOException e) {
             e.getMessage();
         }
@@ -87,7 +70,12 @@ public class FreeTeknoMusicScraper {
                 }
                 @Override
                 public String getHref() {
-                    return url + elem.attr("href");
+                    String elemUrl = elem.attr("href");
+                    if (fullAdressPattern.matcher(elemUrl).find()) {
+                        return elemUrl;
+                    } else {
+                        return url + elemUrl;
+                    }
                 }
                 @Override
                 public String getSlug() {

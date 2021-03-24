@@ -1,17 +1,14 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.helpers.UrlHelper;
 import com.kovospace.musicpagesscraper.models.ScraperItem;
 import com.kovospace.musicpagesscraper.models.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class FreeTeknoMusicBandScraper extends BandScraper {
@@ -32,13 +29,16 @@ public class FreeTeknoMusicBandScraper extends BandScraper {
     @Override
     protected void getDocument(String url) {
         scraper.setExcludePattern(Pattern.compile("^\\?C\\=\\w\\;"));
-        items = scraper.scrape(url);
+        items = scraper.scrape(url)
+            .stream()
+            .filter(item -> FreeTeknoMusicScraper.mp3filePattern.matcher(item.getHref()).find())
+            .collect(Collectors.toList());
+        System.out.println(items);
     }
 
     @Override
     public String requestUrl(String slug) {
         this.slug = slug;
-        //return URL + UrlHelper.encode(slug);
         return URL + slug;
     }
 
@@ -57,7 +57,6 @@ public class FreeTeknoMusicBandScraper extends BandScraper {
 
     @Override
     public String href() {
-        // url encode dat
         return URL + slug;
     }
 
@@ -73,7 +72,10 @@ public class FreeTeknoMusicBandScraper extends BandScraper {
 
     @Override
     public List<Track> tracks() {
-        return null;
+        return items
+            .stream()
+            .map(Track::new)
+            .collect(Collectors.toList());
     }
 
 }
