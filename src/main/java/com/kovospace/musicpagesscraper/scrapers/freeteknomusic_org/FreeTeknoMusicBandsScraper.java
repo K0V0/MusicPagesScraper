@@ -1,24 +1,25 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.models.Band;
+import com.kovospace.musicpagesscraper.models.ScraperItem;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
-import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class FreeTeknoMusicBandsScraper extends BandsScraper {
     private static final int ITEMS_PER_PAGE = 20;
     private static final String URL = "http://archive.freeteknomusic.org/";
-    private static final Pattern excludePattern = Pattern.compile("^\\?C\\=\\w\\;|http\\:\\/\\/");
     private String searchedBand;
     private int pageNum;
-    private Elements bandsHrefs;
-    private List<Band> allBands;
+    private List<ScraperItem> allBands;
     private List<Band> bands;
+
+    @Autowired
+    private FreeTeknoMusicScraper scraper;
 
     public FreeTeknoMusicBandsScraper() {
         super();
@@ -34,29 +35,8 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
 
     @Override
     public void init() {
-        bandsHrefs = document
-            .getElementById("main")
-            .getElementById("text")
-            .getElementsByTag("table").first()
-            .getElementsByTag("a");
-        allBands = bandsHrefs
-            .stream()
-            .filter(elem -> !excludePattern.matcher(elem.attr("href")).find())
-            .map(elem -> new Band(
-                elem.text(),
-                "",
-                URL + elem.attr("href"),
-                elem.attr("href"),
-                "",
-                ""
-            ))
-            .collect(Collectors.toList());
-        if (!this.searchedBand.equals("")) {
-            allBands = allBands
-                .stream()
-                .filter(item -> item.getTitle().contains(this.searchedBand))
-                .collect(Collectors.toList());
-        }
+        scraper.setExcludePattern(Pattern.compile("^\\?C\\=\\w\\;|http\\:\\/\\/"));
+        allBands = scraper.scrape(document, searchedBand, URL);
     }
 
     @Override
@@ -81,6 +61,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
 
     @Override
     public List<Band> bands() {
+        bands = new ArrayList<>();
         if (this.pageNum <= pagesCount()) {
             int start = (pageNum - 1) * ITEMS_PER_PAGE;
             int end;
@@ -89,9 +70,11 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
             } else {
                 end = start + ITEMS_PER_PAGE;
             }
-            bands = allBands.subList(start, end);
-        } else  {
-            bands = new ArrayList<>();
+            for (ScraperItem item : allBands.subList(start, end)) {
+                bands.add(new Band(item));
+                //bands.add((Band) item);
+                // WHYYY cannot cast
+            }
         }
         return bands;
     }

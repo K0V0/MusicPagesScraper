@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.models;
 
+import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

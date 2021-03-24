@@ -1,12 +1,13 @@
 package com.kovospace.musicpagesscraper.models;
 
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Band {
+public  class Band
+        extends ScraperItem
+{
     private String title;
     private String imageUrl;
     private String href;
@@ -15,9 +16,17 @@ public class Band {
     private String city;
     private List<Track> tracks;
 
-    public Band() {}
+    public Band() { super(); }
+
+    public Band(ScraperItem item) {
+        super();
+        this.title = item.getTitle();
+        this.href = item.getHref();
+        this.slug = item.getSlug();
+    }
 
     public Band(String title, String imageUrl, String href, String slug, String genre, String city) {
+        super();
         this.title = title;
         this.imageUrl = imageUrl;
         this.href = href;
@@ -28,6 +37,7 @@ public class Band {
     }
 
     public Band(String title, String imageUrl, String href, String slug, String genre, String city, List<Track> tracks) {
+        super();
         this.title = title;
         this.imageUrl = imageUrl;
         this.href = href;
