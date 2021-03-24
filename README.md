@@ -132,7 +132,7 @@ output:
 | 20.mar.2021 | only base structure of the app |
 | 21.mar.2021 | added Bandzone.cz support, readmes for repo, deploying app on VPS |
 | 22.mar.2021 | support for Freeteknomusic.org - only bands listing part |
-
+| 24.mar.2021 | support for Freeteknomusic.org done, folders loaded recursive, refactor of scrapers to use interfaces instead objects |
 
 
 
