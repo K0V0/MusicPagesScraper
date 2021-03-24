@@ -1,5 +1,7 @@
 package com.kovospace.musicpagesscraper.models;
 
+import com.kovospace.musicpagesscraper.interfaces.BandInterface;
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 @Component
 public  class Band
         extends ScraperItem
+        implements BandInterface
 {
     private String title;
     private String imageUrl;
@@ -14,15 +17,12 @@ public  class Band
     private String slug;
     private String genre;
     private String city;
-    private List<Track> tracks;
+    private List<TrackInterface> tracks;
 
     public Band() { super(); }
 
     public Band(ScraperItem item) {
-        super();
-        this.title = item.getTitle();
-        this.href = item.getHref();
-        this.slug = item.getSlug();
+        this(item.getTitle(), "", item.getHref(), item.getSlug(), "", "");
     }
 
     public Band(String title, String imageUrl, String href, String slug, String genre, String city) {
@@ -36,71 +36,43 @@ public  class Band
         this.tracks = new ArrayList<>();
     }
 
-    public Band(String title, String imageUrl, String href, String slug, String genre, String city, List<Track> tracks) {
-        super();
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.href = href;
-        this.slug = slug;
-        this.genre = genre;
-        this.city = city;
+    public Band(String title, String imageUrl, String href, String slug, String genre, String city, List<TrackInterface> tracks) {
+        this(title, imageUrl, href, slug, genre, city);
         this.tracks = tracks;
     }
 
-    public List<Track> getTracks() {
+    public List<TrackInterface> getTracks() {
         return tracks;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public String getImageUrl() {
         return imageUrl;
     }
 
+    @Override
     public String getHref() {
         return href;
     }
 
+    @Override
     public String getSlug() {
         return slug;
     }
 
+    @Override
     public String getGenre() {
         return genre;
     }
 
+    @Override
     public String getCity() {
         return city;
-    }
-
-    public void setTracks(List<Track> tracks) {
-        this.tracks = tracks;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setHref(String href) {
-        this.href = href;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     @Override

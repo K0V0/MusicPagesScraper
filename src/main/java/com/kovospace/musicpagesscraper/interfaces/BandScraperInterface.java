@@ -13,5 +13,5 @@ public interface BandScraperInterface {
     String href();
     String genre();
     String city();
-    List<Track> tracks();
+    List<TrackInterface> tracks();
 }

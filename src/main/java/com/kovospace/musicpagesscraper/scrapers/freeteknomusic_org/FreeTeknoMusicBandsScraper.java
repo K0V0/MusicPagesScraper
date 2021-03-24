@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.models.Band;
+import com.kovospace.musicpagesscraper.interfaces.BandInterface;
 import com.kovospace.musicpagesscraper.models.ScraperItem;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class FreeTeknoMusicBandsScraper extends BandsScraper {
@@ -16,7 +17,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
     private String searchedBand;
     private int pageNum;
     private List<ScraperItem> allBands;
-    private List<Band> bands;
+    private List<BandInterface> bands;
 
     @Autowired
     private FreeTeknoMusicScraper scraper;
@@ -60,8 +61,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
     }
 
     @Override
-    public List<Band> bands() {
-        bands = new ArrayList<>();
+    public List<BandInterface> bands() {
         if (this.pageNum <= pagesCount()) {
             int start = (pageNum - 1) * ITEMS_PER_PAGE;
             int end;
@@ -70,12 +70,38 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
             } else {
                 end = start + ITEMS_PER_PAGE;
             }
-            for (ScraperItem item : allBands.subList(start, end)) {
-                bands.add(new Band(item));
-                //bands.add((Band) item);
-                // WHYYY cannot cast
-            }
+            bands = allBands
+                .subList(start, end)
+                .stream()
+                .map(item -> new BandInterface() {
+                    @Override
+                    public String getImageUrl() {
+                        return null;
+                    }
+                    @Override
+                    public String getGenre() {
+                        return null;
+                    }
+                    @Override
+                    public String getCity() {
+                        return null;
+                    }
+                    @Override
+                    public String getTitle() {
+                        return item.getTitle();
+                    }
+                    @Override
+                    public String getHref() {
+                        return item.getHref();
+                    }
+                    @Override
+                    public String getSlug() {
+                        return item.getSlug();
+                    }
+                })
+                .collect(Collectors.toList());
+            return bands;
         }
-        return bands;
+        return new ArrayList<BandInterface>();
     }
 }

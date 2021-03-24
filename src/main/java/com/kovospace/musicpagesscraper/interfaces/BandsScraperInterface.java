@@ -11,5 +11,5 @@ public interface BandsScraperInterface {
     int pageItemsCount();
     int pagesCount();
     int totalItemsCount();
-    List<Band> bands();
+    List<BandInterface> bands();
 }

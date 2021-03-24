@@ -1,7 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
-import com.kovospace.musicpagesscraper.models.Track;
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -69,74 +69,99 @@ public class BandzoneBandScraper extends BandScraper {
     }
 
     @Override
-    public List<Track> tracks() {
+    public List<TrackInterface> tracks() {
         return processTracklist(tracksList);
     }
 
-    private List<Track> processTracklist(Element trackslist) {
+    private List<TrackInterface> processTracklist(Element trackslist) {
 
-        List<Track> tracks = new ArrayList<>();
+        List<TrackInterface> tracks = new ArrayList<>();
         Pattern urlRegex = Pattern.compile("^(http\\:\\/\\/|https\\:\\/\\/)?(www)?(bandzone\\.cz\\/track\\/)(play)(\\/)(\\d+)(.+)$");
         String urlReplacement = "$1$2$3download$5$6";
         Pattern durationRegex = Pattern.compile("^PT(\\d*)M?(\\d*\\.*\\d*)S*");
         Pattern albumRegex = Pattern.compile("^\\s*\\-*\\s*");
         Pattern playsCountRegex = Pattern.compile("\\D", Pattern.CASE_INSENSITIVE);
-        Matcher matcher;
         Elements trackContainers = trackslist.getElementsByTag("li");
-        Element albumContainer;
-        Elements trackMetaTags;
-        String fullTitle;
-        String title;
-        String album;
-        String playsCount;
-        String href;
-        String hrefHash;
-        String duration;
 
         for (Element trackContainer : trackContainers) {
+            String href;
+            Element albumContainer;
 
-            fullTitle = trackContainer.getElementsByClass("title").first().text().trim();
-            albumContainer = trackContainer.getElementsByClass("album-title").first();
-            if (albumContainer == null) {
-                album = "Nezaradené";
-                title = fullTitle;
-            } else {
-                album = albumContainer.text().trim();
-                title = fullTitle.replace(album, "");
-                album = albumRegex.matcher(album).replaceAll("");
-            }
-            playsCount = playsCountRegex
-                .matcher(trackContainer.getElementsByClass("total-plays").first().text())
-                .replaceAll("");
+            albumContainer = trackContainer
+                .getElementsByClass("album-title").first();
             href = urlRegex
                 .matcher(trackContainer.attr("data-source"))
                 .replaceAll(urlReplacement);
-            hrefHash = MD5helper.hash(href);
-            trackMetaTags = trackContainer.getElementsByTag("meta");
-            duration = "";
-            for (Element trackMetaTag : trackMetaTags) {
-                if (trackMetaTag.attr("itemprop").equals("duration")) {
-                    duration = trackMetaTag.attr("content");
-                }
-            }
-            matcher = durationRegex.matcher(duration);
-            if (matcher.find()) {
-                duration = String.format(
-                        "%s:%s",
-                        processNumForClocks(matcher.group(1)),
-                        processNumForClocks(matcher.group(2))
-                );
-            }
 
-            tracks.add(new Track(
-                fullTitle,
-                title,
-                album,
-                playsCount,
-                href,
-                hrefHash,
-                duration
-            ));
+            tracks.add(new TrackInterface() {
+                @Override
+                public String getAlbum() {
+                    String album;
+                    if (albumContainer == null) {
+                        album = "Nezaradené";
+                    } else {
+                        album = albumContainer.text().trim();
+                        album = albumRegex.matcher(album).replaceAll("");
+                    }
+                    return album;
+                }
+
+                @Override
+                public String getPlaysCount() {
+                    return playsCountRegex
+                        .matcher(trackContainer.getElementsByClass("total-plays").first().text())
+                        .replaceAll("");
+                }
+
+                @Override
+                public String getHrefHash() {
+                    return MD5helper.hash(href);
+                }
+
+                @Override
+                public String getDuration() {
+                    String duration = "";
+                    Matcher matcher;
+                    Elements trackMetaTags = trackContainer.getElementsByTag("meta");
+                    for (Element trackMetaTag : trackMetaTags) {
+                        if (trackMetaTag.attr("itemprop").equals("duration")) {
+                            duration = trackMetaTag.attr("content");
+                        }
+                    }
+                    matcher = durationRegex.matcher(duration);
+                    if (matcher.find()) {
+                        duration = String.format(
+                                "%s:%s",
+                                processNumForClocks(matcher.group(1)),
+                                processNumForClocks(matcher.group(2))
+                        );
+                    }
+                    return duration;
+                }
+
+                @Override
+                public String getTitle() {
+                    String title;
+                    String fullTitle = trackContainer.getElementsByClass("title").first().text().trim();
+                    if (albumContainer == null) {
+                        title = fullTitle;
+                    } else {
+                        String album = albumContainer.text().trim();
+                        title = fullTitle.replace(album, "");
+                    }
+                    return title;
+                }
+
+                @Override
+                public String getHref() {
+                    return href;
+                }
+
+                @Override
+                public String getSlug() {
+                    return slug;
+                }
+            });
         }
 
         return tracks;

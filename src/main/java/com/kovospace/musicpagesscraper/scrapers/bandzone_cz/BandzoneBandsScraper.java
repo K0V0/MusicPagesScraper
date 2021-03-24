@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
-import com.kovospace.musicpagesscraper.models.Band;
+import com.kovospace.musicpagesscraper.interfaces.BandInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -61,17 +61,35 @@ public class BandzoneBandsScraper extends BandsScraper {
     }
 
     @Override
-    public List<Band> bands() {
-        List<Band> bands = new ArrayList<>();
+    public List<BandInterface> bands() {
+        List<BandInterface> bands = new ArrayList<>();
         for (Element bandContainer : bandContainers) {
-            bands.add(new Band(
-                bandContainer.getElementsByTag("h4").first().text(),
-                bandContainer.getElementsByTag("img").first().attr("src"),
-                "https://bandzone.cz" + bandContainer.getElementsByTag("a").first().attr("href"),
-                bandContainer.getElementsByTag("a").first().attr("href").replace("/", ""),
-                bandContainer.getElementsByClass("genre").first().text(),
-                bandContainer.getElementsByClass("city").first().text()
-            ));
+            bands.add(new BandInterface() {
+                @Override
+                public String getImageUrl() {
+                    return bandContainer.getElementsByTag("img").first().attr("src");
+                }
+                @Override
+                public String getGenre() {
+                    return bandContainer.getElementsByClass("genre").first().text();
+                }
+                @Override
+                public String getCity() {
+                    return bandContainer.getElementsByClass("city").first().text();
+                }
+                @Override
+                public String getTitle() {
+                    return bandContainer.getElementsByTag("h4").first().text();
+                }
+                @Override
+                public String getHref() {
+                    return "https://bandzone.cz" + bandContainer.getElementsByTag("a").first().attr("href");
+                }
+                @Override
+                public String getSlug() {
+                    return bandContainer.getElementsByTag("a").first().attr("href").replace("/", "");
+                }
+            });
         }
         return bands;
     }

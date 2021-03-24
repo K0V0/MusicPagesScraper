@@ -1,10 +1,11 @@
 package com.kovospace.musicpagesscraper.models;
 
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
 import com.kovospace.musicpagesscraper.interfaces.TracklistItemInterface;
 
 public  class Track
         extends ScraperItem
-        implements TracklistItemInterface
+        implements TrackInterface, TracklistItemInterface
 {
     private String fullTitle;
     private String title;
@@ -39,34 +40,22 @@ public  class Track
         return fullTitle;
     }
 
-    public void setFullTitle(String fullTitle) {
-        this.fullTitle = fullTitle;
-    }
-
+    @Override
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    @Override
     public String getAlbum() {
         return album;
     }
 
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
+    @Override
     public String getPlaysCount() {
         return playsCount;
     }
 
-    public void setPlaysCount(String playsCount) {
-        this.playsCount = playsCount;
-    }
-
+    @Override
     public String getHref() {
         return href;
     }
@@ -76,23 +65,14 @@ public  class Track
         return "";
     }
 
-    public void setHref(String href) {
-        this.href = href;
-    }
-
+    @Override
     public String getHrefHash() {
         return hrefHash;
     }
 
-    public void setHrefHash(String hrefHash) {
-        this.hrefHash = hrefHash;
-    }
-
+    @Override
     public String getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
 }
