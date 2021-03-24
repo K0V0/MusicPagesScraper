@@ -13,7 +13,8 @@ Virtual server runs on [http://172.104.155.216:4000/](http://172.104.155.216:400
 
 | Platform (site) | Slug |
 | --------------- | ---- |
-| Bandzone.cz | bandzone | 
+| Bandzone.cz | bandzone |
+| FreeTeknoMusic.org | freeteknomusic |
 
 
 ### Search bands by name, query bands list (paginated, full search)  
