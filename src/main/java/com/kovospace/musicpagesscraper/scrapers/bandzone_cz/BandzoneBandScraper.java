@@ -77,7 +77,7 @@ public class BandzoneBandScraper extends BandScraper {
     public List<TrackInterface> tracks() {
         List<TrackInterface> tracks = new ArrayList<>();
         Pattern urlRegex = Pattern.compile("^(http\\:\\/\\/|https\\:\\/\\/)?(www)?(bandzone\\.cz\\/track\\/)(play)(\\/)(\\d+)(.+)$");
-        String urlReplacement = "$1$2$3download$5$6";
+        String urlReplacement = "http://$2$3download$5$6";
         Pattern durationRegex = Pattern.compile("^PT(\\d*)M?(\\d*\\.*\\d*)S*");
         Pattern albumRegex = Pattern.compile("^\\s*\\-*\\s*");
         Pattern playsCountRegex = Pattern.compile("\\D", Pattern.CASE_INSENSITIVE);
