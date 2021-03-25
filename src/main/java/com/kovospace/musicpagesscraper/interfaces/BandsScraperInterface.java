@@ -1,7 +1,6 @@
 package com.kovospace.musicpagesscraper.interfaces;
 
-import com.kovospace.musicpagesscraper.models.Band;
-
+import com.kovospace.musicpagesscraper.models.BandInterface;
 import java.util.List;
 
 public interface BandsScraperInterface {

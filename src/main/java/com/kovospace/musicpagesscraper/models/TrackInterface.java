@@ -1,4 +1,4 @@
-package com.kovospace.musicpagesscraper.interfaces;
+package com.kovospace.musicpagesscraper.models;
 
 public interface TrackInterface extends ScraperItemInterface {
     String getAlbum();

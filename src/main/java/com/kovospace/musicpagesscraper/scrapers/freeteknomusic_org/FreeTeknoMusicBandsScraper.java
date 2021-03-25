@@ -1,7 +1,8 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.interfaces.BandInterface;
-import com.kovospace.musicpagesscraper.models.ScraperItem;
+import com.kovospace.musicpagesscraper.models.BandInterface;
+import com.kovospace.musicpagesscraper.models.ScraperItemInterface;
+import com.kovospace.musicpagesscraper.models.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
     private static final String URL = "http://archive.freeteknomusic.org/";
     private String searchedBand;
     private int pageNum;
-    private List<ScraperItem> allBands;
+    private List<ScraperItemInterface> allBands;
     private List<BandInterface> bands;
 
     @Autowired
@@ -87,17 +88,15 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
                         return null;
                     }
                     @Override
-                    public String getTitle() {
-                        return item.getTitle();
-                    }
+                    public String getPlatform() { return "freetekno"; }
                     @Override
-                    public String getHref() {
-                        return item.getHref();
-                    }
+                    public List<TrackInterface> getTracks() { return null; }
                     @Override
-                    public String getSlug() {
-                        return item.getSlug();
-                    }
+                    public String getTitle() { return item.getTitle(); }
+                    @Override
+                    public String getHref() { return item.getHref(); }
+                    @Override
+                    public String getSlug() { return item.getSlug(); }
                 })
                 .collect(Collectors.toList());
             return bands;

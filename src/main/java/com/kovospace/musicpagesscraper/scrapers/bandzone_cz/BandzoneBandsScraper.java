@@ -1,6 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
-import com.kovospace.musicpagesscraper.interfaces.BandInterface;
+import com.kovospace.musicpagesscraper.models.BandInterface;
+import com.kovospace.musicpagesscraper.models.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -77,6 +78,10 @@ public class BandzoneBandsScraper extends BandsScraper {
                 public String getCity() {
                     return bandContainer.getElementsByClass("city").first().text();
                 }
+                @Override
+                public String getPlatform() { return "bandzone"; }
+                @Override
+                public List<TrackInterface> getTracks() { return null; }
                 @Override
                 public String getTitle() {
                     return bandContainer.getElementsByTag("h4").first().text();

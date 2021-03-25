@@ -1,7 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
-import com.kovospace.musicpagesscraper.models.ScraperItem;
+import com.kovospace.musicpagesscraper.models.ScraperItemInterface;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
@@ -28,15 +28,15 @@ public class FreeTeknoMusicScraper {
         this.excludePattern = pattern;
     }
 
-    public List<ScraperItem> scrape(String url) {
-        List<ScraperItem> results = new ArrayList<>();
+    public List<ScraperItemInterface> scrape(String url) {
+        List<ScraperItemInterface> results = new ArrayList<>();
         Document document;
         try {
             document = Jsoup.connect(url).get();
             results = scrape(document, "", url);
             results.remove(0); // folder up, infinite loop
-            List<ScraperItem> results2 = new ArrayList<>();
-            for (ScraperItem result : results) {
+            List<ScraperItemInterface> results2 = new ArrayList<>();
+            for (ScraperItemInterface result : results) {
                 if (!mp3filePattern.matcher(result.getHref()).find()) {
                     matcher = directoryPatternFix.matcher(result.getHref());
                     if (matcher.find()) {
@@ -54,16 +54,16 @@ public class FreeTeknoMusicScraper {
     }
 
     // OMG WHYYYYY can I do "new ScraperItem() {...}" which is ABSTRACT class
-    public List<ScraperItem> scrape(Document document, String search, String url) {
+    public List<ScraperItemInterface> scrape(Document document, String search, String url) {
 
-        List<ScraperItem> result = document
+        List<ScraperItemInterface> result = document
             .getElementById("main")
             .getElementById("text")
             .getElementsByTag("table").first()
             .getElementsByTag("a")
             .stream()
             .filter(elem -> !excludePattern.matcher(elem.attr("href")).find())
-            .map(elem -> new ScraperItem() {
+            .map(elem -> new ScraperItemInterface() {
                 @Override
                 public String getTitle() {
                     return elem.text();

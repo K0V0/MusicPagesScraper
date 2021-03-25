@@ -3,8 +3,8 @@ package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
 import com.kovospace.musicpagesscraper.helpers.VocabularyHelper;
-import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
-import com.kovospace.musicpagesscraper.models.ScraperItem;
+import com.kovospace.musicpagesscraper.models.ScraperItemInterface;
+import com.kovospace.musicpagesscraper.models.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class FreeTeknoMusicBandScraper extends BandScraper {
     private static final String MP3_URL = "http://freeteknomusic.org/mp3/" ;
     private static final Pattern albumPattern = Pattern.compile("([^\\/]+)\\/[^\\/]+\\.mp3$");
     private String slug;
-    private List<ScraperItem> items;
+    private List<ScraperItemInterface> items;
 
     @Autowired
     private FreeTeknoMusicScraper scraper;
@@ -37,6 +37,11 @@ public class FreeTeknoMusicBandScraper extends BandScraper {
             .stream()
             .filter(item -> FreeTeknoMusicScraper.mp3filePattern.matcher(item.getHref()).find())
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public String platformSlug() {
+        return "freetekno";
     }
 
     @Override
@@ -75,8 +80,6 @@ public class FreeTeknoMusicBandScraper extends BandScraper {
 
     @Override
     public List<TrackInterface> tracks() {
-
-
         return items
             .stream()
             .map(item -> new TrackInterface() {

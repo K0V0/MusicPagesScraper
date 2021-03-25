@@ -1,11 +1,10 @@
 package com.kovospace.musicpagesscraper.interfaces;
 
-import com.kovospace.musicpagesscraper.models.ScraperItem;
-import com.kovospace.musicpagesscraper.models.Track;
-
+import com.kovospace.musicpagesscraper.models.TrackInterface;
 import java.util.List;
 
 public interface BandScraperInterface {
+    String platformSlug();
     String requestUrl(String slug);
     void init();
     String title();

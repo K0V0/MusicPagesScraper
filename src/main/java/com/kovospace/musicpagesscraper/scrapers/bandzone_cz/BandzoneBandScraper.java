@@ -1,7 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
-import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.models.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,6 +19,11 @@ public class BandzoneBandScraper extends BandScraper {
     private String slug;
 
     public BandzoneBandScraper() { super(); }
+
+    @Override
+    public String platformSlug() {
+        return "bandzone";
+    }
 
     @Override
     public String requestUrl(String slug) {
@@ -70,26 +75,18 @@ public class BandzoneBandScraper extends BandScraper {
 
     @Override
     public List<TrackInterface> tracks() {
-        return processTracklist(tracksList);
-    }
-
-    private List<TrackInterface> processTracklist(Element trackslist) {
-
         List<TrackInterface> tracks = new ArrayList<>();
         Pattern urlRegex = Pattern.compile("^(http\\:\\/\\/|https\\:\\/\\/)?(www)?(bandzone\\.cz\\/track\\/)(play)(\\/)(\\d+)(.+)$");
         String urlReplacement = "$1$2$3download$5$6";
         Pattern durationRegex = Pattern.compile("^PT(\\d*)M?(\\d*\\.*\\d*)S*");
         Pattern albumRegex = Pattern.compile("^\\s*\\-*\\s*");
         Pattern playsCountRegex = Pattern.compile("\\D", Pattern.CASE_INSENSITIVE);
-        Elements trackContainers = trackslist.getElementsByTag("li");
+        Elements trackContainers = tracksList.getElementsByTag("li");
 
         for (Element trackContainer : trackContainers) {
-            String href;
-            Element albumContainer;
-
-            albumContainer = trackContainer
+            Element albumContainer = trackContainer
                 .getElementsByClass("album-title").first();
-            href = urlRegex
+            String href = urlRegex
                 .matcher(trackContainer.attr("data-source"))
                 .replaceAll(urlReplacement);
 
@@ -131,9 +128,9 @@ public class BandzoneBandScraper extends BandScraper {
                     matcher = durationRegex.matcher(duration);
                     if (matcher.find()) {
                         duration = String.format(
-                                "%s:%s",
-                                processNumForClocks(matcher.group(1)),
-                                processNumForClocks(matcher.group(2))
+                            "%s:%s",
+                            processNumForClocks(matcher.group(1)),
+                            processNumForClocks(matcher.group(2))
                         );
                     }
                     return duration;
