@@ -3,9 +3,9 @@ package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
 import com.kovospace.musicpagesscraper.helpers.VocabularyHelper;
-import com.kovospace.musicpagesscraper.models.ScraperItemInterface;
-import com.kovospace.musicpagesscraper.models.TrackInterface;
-import com.kovospace.musicpagesscraper.scrapers.BandScraper;
+import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class FreeTeknoMusicBandScraper extends BandScraper {
+public class FreeTeknoMusicBandScraper extends BandScraperImpl {
     private final static String URL = "http://archive.freeteknomusic.org/";
     private static final String MP3_URL = "http://freeteknomusic.org/mp3/" ;
     private static final Pattern albumPattern = Pattern.compile("([^\\/]+)\\/[^\\/]+\\.mp3$");

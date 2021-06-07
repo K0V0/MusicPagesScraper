@@ -1,8 +1,8 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
-import com.kovospace.musicpagesscraper.models.BandInterface;
-import com.kovospace.musicpagesscraper.models.TrackInterface;
-import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
+import com.kovospace.musicpagesscraper.interfaces.BandInterface;
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BandzoneBandsScraper extends BandsScraper {
+public class BandzoneBandsScraper extends BandsScraperImpl {
     private Element bandsContainer;
     private Elements bandContainers;
     private Element paginator;
@@ -30,7 +30,7 @@ public class BandzoneBandsScraper extends BandsScraper {
     }
 
     @Override
-    public int pageNum() {
+    public int getCurrentPageNum() {
         if (paginator == null) {
             return 1;
         } else {
@@ -39,12 +39,12 @@ public class BandzoneBandsScraper extends BandsScraper {
     }
 
     @Override
-    public int pageItemsCount() {
+    public int getCurrentPageItemsCount() {
         return bandContainers.size();
     }
 
     @Override
-    public int pagesCount() {
+    public int getPagesCount() {
         if (paginator == null) {
             return 1;
         } else {
@@ -53,16 +53,16 @@ public class BandzoneBandsScraper extends BandsScraper {
     }
 
     @Override
-    public int totalItemsCount() {
+    public int getTotalItemsCount() {
         if (paginator == null) {
-            return pageItemsCount();
+            return getCurrentPageItemsCount();
         } else {
             return Integer.parseInt(paginator.attr("data-paginator-items"));
         }
     }
 
     @Override
-    public List<BandInterface> bands() {
+    public List<BandInterface> getBands() {
         List<BandInterface> bands = new ArrayList<>();
         for (Element bandContainer : bandContainers) {
             bands.add(new BandInterface() {

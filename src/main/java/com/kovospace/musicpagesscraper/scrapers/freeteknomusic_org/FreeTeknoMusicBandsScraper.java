@@ -1,9 +1,9 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.models.BandInterface;
-import com.kovospace.musicpagesscraper.models.ScraperItemInterface;
-import com.kovospace.musicpagesscraper.models.TrackInterface;
-import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
+import com.kovospace.musicpagesscraper.interfaces.BandInterface;
+import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class FreeTeknoMusicBandsScraper extends BandsScraper {
+public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
     private static final int ITEMS_PER_PAGE = 20;
     private static final String URL = "http://archive.freeteknomusic.org/";
     private String searchedBand;
@@ -42,28 +42,28 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
     }
 
     @Override
-    public int pageNum() {
+    public int getCurrentPageNum() {
         return this.pageNum;
     }
 
     @Override
-    public int pageItemsCount() {
+    public int getCurrentPageItemsCount() {
         return bands.size();
     }
 
     @Override
-    public int pagesCount() {
+    public int getPagesCount() {
         return (allBands.size() % ITEMS_PER_PAGE) == 0 ? (allBands.size() / ITEMS_PER_PAGE) : ((allBands.size() / ITEMS_PER_PAGE) + 1) ;
     }
 
     @Override
-    public int totalItemsCount() {
+    public int getTotalItemsCount() {
         return allBands.size();
     }
 
     @Override
-    public List<BandInterface> bands() {
-        if (this.pageNum <= pagesCount()) {
+    public List<BandInterface> getBands() {
+        if (this.pageNum <= getPagesCount()) {
             int start = (pageNum - 1) * ITEMS_PER_PAGE;
             int end;
             if (start + ITEMS_PER_PAGE > allBands.size()) {
@@ -103,4 +103,5 @@ public class FreeTeknoMusicBandsScraper extends BandsScraper {
         }
         return new ArrayList<BandInterface>();
     }
+
 }

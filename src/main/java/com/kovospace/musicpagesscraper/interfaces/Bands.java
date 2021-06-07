@@ -1,8 +1,8 @@
-package com.kovospace.musicpagesscraper.models;
+package com.kovospace.musicpagesscraper.interfaces;
 
 import java.util.List;
 
-public interface BandsInterface {
+public interface Bands {
     List<BandInterface> getBands();
     int getCurrentPageItemsCount();
     int getPagesCount();

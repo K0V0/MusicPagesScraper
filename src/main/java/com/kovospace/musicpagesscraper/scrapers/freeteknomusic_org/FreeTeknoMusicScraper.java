@@ -1,7 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
-import com.kovospace.musicpagesscraper.models.ScraperItemInterface;
+import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;

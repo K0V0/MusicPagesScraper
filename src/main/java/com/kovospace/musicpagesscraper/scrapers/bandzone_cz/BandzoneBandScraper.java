@@ -1,8 +1,8 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
-import com.kovospace.musicpagesscraper.models.TrackInterface;
-import com.kovospace.musicpagesscraper.scrapers.BandScraper;
+import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class BandzoneBandScraper extends BandScraper {
+public class BandzoneBandScraper extends BandScraperImpl {
     private Element tracksList;
     private String genreAndCity;
     private String title;

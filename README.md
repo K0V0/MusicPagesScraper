@@ -134,6 +134,7 @@ output:
 | 21.mar.2021 | added Bandzone.cz support, readmes for repo, deploying app on VPS |
 | 22.mar.2021 | support for Freeteknomusic.org - only bands listing part |
 | 24.mar.2021 | support for Freeteknomusic.org done, folders loaded recursive, refactor of scrapers to use interfaces instead objects |
+| 07.jun.2021 | started working on ver2.0 with support for scraping multiple pages on one request - code refactor, only endpoint for querying bands from one platform working yet |
 
 
 

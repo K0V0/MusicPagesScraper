@@ -1,4 +1,4 @@
-package com.kovospace.musicpagesscraper.models;
+package com.kovospace.musicpagesscraper.interfaces;
 
 import java.util.List;
 
