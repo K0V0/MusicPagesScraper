@@ -1,8 +1,10 @@
 package com.kovospace.musicpagesscraper.controllers;
 
 import com.kovospace.musicpagesscraper.interfaces.Bands;
+import com.kovospace.musicpagesscraper.interfaces.Platforms;
 import com.kovospace.musicpagesscraper.services.BandService;
 import com.kovospace.musicpagesscraper.services.BandsService;
+import com.kovospace.musicpagesscraper.services.PlatformService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +17,17 @@ public class MainController {
 
   private BandsService bandsService;
   private BandService bandService;
+  private PlatformService platformService;
 
   @Autowired
   public MainController(
     BandsService bandsService,
-    BandService bandService
+    BandService bandService,
+    PlatformService platformService
   ) {
     this.bandsService = bandsService;
     this.bandService = bandService;
+    this.platformService = platformService;
   }
 
   @GetMapping("/{platform}/bands")
@@ -50,6 +55,13 @@ public class MainController {
     @RequestParam String q
   ) {
     return bandService.getBand(q);
+  }
+
+  @GetMapping("/platforms")
+  public Platforms getPlatforms(
+    @RequestParam(defaultValue = "1", required = false) String p
+  ) {
+    return platformService.getAll();
   }
 
 }

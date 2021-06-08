@@ -19,7 +19,7 @@ public  class PlatformUtilImpl
   @Override
   public BandsScraper getPlatformBandsScraper(List<BandsScraper> bandsScrapers, String platformName) {
     for (BandsScraper bandsScraper : bandsScrapers) {
-      if (PlatformConstants.PLATFORM_CLASSES_PREFIXES.containsKey(platformName)) {
+      if (PlatformConstants.PLATFORM_INFOS.containsKey(platformName)) {
         return bandsScraper;
       }
     }

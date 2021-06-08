@@ -2,7 +2,7 @@ package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
-import com.kovospace.musicpagesscraper.helpers.VocabularyHelper;
+import com.kovospace.musicpagesscraper.constants.VocabularyConstants;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
 import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
@@ -92,7 +92,7 @@ public class FreeTeknoMusicBandScraper extends BandScraperImpl {
                     if (matcher.find()) {
                         album = matcher.group(1);
                     } else {
-                        album = VocabularyHelper.noAlbum;
+                        album = VocabularyConstants.noAlbum;
                     }
                     return album;
                 }
