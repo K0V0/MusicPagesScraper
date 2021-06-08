@@ -3,7 +3,7 @@ package com.kovospace.musicpagesscraper.interfaces;
 import java.util.List;
 
 public interface Bands {
-    List<BandInterface> getBands();
+    List<Band> getBands();
     int getCurrentPageItemsCount();
     int getPagesCount();
     int getCurrentPageNum();

@@ -1,15 +1,15 @@
 package com.kovospace.musicpagesscraper.scrapers;
 
-import com.kovospace.musicpagesscraper.interfaces.BandInterface;
-import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
-
-import java.util.List;
-
 public abstract class BandScraperImpl
                 extends MainScraper
                 implements BandScraper {
 
     public BandScraperImpl() { super(); }
+
+    public void fetch(String slug) {
+        getDocument( requestUrl(slug) );
+        init();
+    }
 
     /*public String getBand(String slug) {
         getDocument( requestUrl(slug) );

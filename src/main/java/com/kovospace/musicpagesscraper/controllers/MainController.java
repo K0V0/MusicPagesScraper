@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.controllers;
 
+import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.interfaces.Platforms;
 import com.kovospace.musicpagesscraper.services.BandService;
@@ -30,13 +31,13 @@ public class MainController {
     this.platformService = platformService;
   }
 
-  @GetMapping("/{platform}/bands")
+  @GetMapping("/{s}/bands")
   public Bands getBands(
     @RequestParam(defaultValue = "") String q,
     @RequestParam(defaultValue = "1") String p,
-    @PathVariable String platform
+    @PathVariable String s
   ) {
-    return bandsService.getBands(q, p, platform);
+    return bandsService.getBands(q, p, s);
   }
 
   @GetMapping("/bands")
@@ -50,11 +51,12 @@ public class MainController {
     return bandsService.getBands(q, p, s);
   }
 
-  @GetMapping("/band")
-  public String getBand(
-    @RequestParam String q
+  @GetMapping("/{s}/band")
+  public Band getBand(
+    @RequestParam String q,
+    @PathVariable String s
   ) {
-    return bandService.getBand(q);
+    return bandService.getBand(q, s);
   }
 
   @GetMapping("/platforms")

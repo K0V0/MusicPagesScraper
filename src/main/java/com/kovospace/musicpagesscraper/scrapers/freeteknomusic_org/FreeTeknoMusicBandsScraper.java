@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.interfaces.BandInterface;
+import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
 import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
@@ -18,7 +18,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
     private String searchedBand;
     private int pageNum;
     private List<ScraperItemInterface> allBands;
-    private List<BandInterface> bands;
+    private List<Band> bands;
 
     @Autowired
     private FreeTeknoMusicScraper scraper;
@@ -62,7 +62,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
     }
 
     @Override
-    public List<BandInterface> getBands() {
+    public List<Band> getBands() {
         if (this.pageNum <= getPagesCount()) {
             int start = (pageNum - 1) * ITEMS_PER_PAGE;
             int end;
@@ -74,7 +74,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
             bands = allBands
                 .subList(start, end)
                 .stream()
-                .map(item -> new BandInterface() {
+                .map(item -> new Band() {
                     @Override
                     public String getImageUrl() {
                         return null;
@@ -101,7 +101,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
                 .collect(Collectors.toList());
             return bands;
         }
-        return new ArrayList<BandInterface>();
+        return new ArrayList<Band>();
     }
 
 }

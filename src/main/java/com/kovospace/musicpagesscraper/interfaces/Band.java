@@ -2,7 +2,7 @@ package com.kovospace.musicpagesscraper.interfaces;
 
 import java.util.List;
 
-public interface BandInterface extends ScraperItemInterface {
+public interface Band extends ScraperItemInterface {
     String getImageUrl();
     String getGenre();
     String getCity();

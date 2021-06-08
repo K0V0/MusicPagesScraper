@@ -1,6 +1,8 @@
 package com.kovospace.musicpagesscraper.services;
 
+import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
+import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import com.kovospace.musicpagesscraper.scrapers.bandzone_cz.BandzoneBandScraper;
 import com.kovospace.musicpagesscraper.utils.PlatformUtil;
 import java.util.List;
@@ -22,12 +24,9 @@ public  class BandServiceImpl
   }
 
   @Override
-  public String getBand(String slug) {
-    bandScrapers.forEach(bandScraper -> {
-      if (bandScraper instanceof BandzoneBandScraper) {
-
-      }
-    });
-    return null;
+  public Band getBand(String slug, String platform) {
+    BandScraper bandScraper = platformUtil.getPlatformBandScraper(bandScrapers, platform);
+    bandScraper.fetch(slug);
+    return bandScraper;
   }
 }

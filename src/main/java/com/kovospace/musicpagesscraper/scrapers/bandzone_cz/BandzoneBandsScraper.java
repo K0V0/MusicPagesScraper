@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
-import com.kovospace.musicpagesscraper.interfaces.BandInterface;
+import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import org.jsoup.nodes.Element;
@@ -62,10 +62,10 @@ public class BandzoneBandsScraper extends BandsScraperImpl {
     }
 
     @Override
-    public List<BandInterface> getBands() {
-        List<BandInterface> bands = new ArrayList<>();
+    public List<Band> getBands() {
+        List<Band> bands = new ArrayList<>();
         for (Element bandContainer : bandContainers) {
-            bands.add(new BandInterface() {
+            bands.add(new Band() {
                 @Override
                 public String getImageUrl() {
                     return bandContainer.getElementsByTag("img").first().attr("src");
