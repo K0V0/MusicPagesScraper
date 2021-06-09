@@ -4,8 +4,8 @@ import com.kovospace.musicpagesscraper.interfaces.Bands;
 
 public abstract class BandsScraperImpl
                 extends MainScraper
-                implements BandsScraper {
-
+                implements BandsScraper
+{
     public BandsScraperImpl() { super(); }
 
     public void fetch(String searchedBand, String pageNum) {

@@ -12,7 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class BandzoneBandScraper extends BandScraperImpl {
+public  class BandzoneBandScraper
+        extends BandScraperImpl
+{
     private Element tracksList;
     private String genreAndCity;
     private String title;
@@ -21,7 +23,7 @@ public class BandzoneBandScraper extends BandScraperImpl {
     public BandzoneBandScraper() { super(); }
 
     @Override
-    public String platformSlug() {
+    public String getPlatform() {
         return "bandzone";
     }
 
@@ -46,12 +48,12 @@ public class BandzoneBandScraper extends BandScraperImpl {
     }
 
     @Override
-    public String title() {
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public String imageUrl() {
+    public String getImageUrl() {
         return document
             .getElementById("profilePhoto")
             .getElementsByTag("img").first()
@@ -59,22 +61,27 @@ public class BandzoneBandScraper extends BandScraperImpl {
     }
 
     @Override
-    public String href() {
+    public String getHref() {
         return requestUrl(slug);
     }
 
     @Override
-    public String genre() {
+    public String getSlug() {
+        return this.slug;
+    }
+
+    @Override
+    public String getGenre() {
         return genreAndCity.split("\\/")[0].trim();
     }
 
     @Override
-    public String city() {
+    public String getCity() {
         return genreAndCity.split("\\/")[1].trim();
     }
 
     @Override
-    public List<TrackInterface> tracks() {
+    public List<TrackInterface> getTracks() {
         List<TrackInterface> tracks = new ArrayList<>();
         Pattern urlRegex = Pattern.compile("^(http\\:\\/\\/|https\\:\\/\\/)?(www)?(bandzone\\.cz\\/track\\/)(play)(\\/)(\\d+)(.+)$");
         String urlReplacement = "http://$2$3download$5$6";

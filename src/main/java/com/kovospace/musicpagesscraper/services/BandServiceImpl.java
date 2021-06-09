@@ -2,8 +2,6 @@ package com.kovospace.musicpagesscraper.services;
 
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
-import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
-import com.kovospace.musicpagesscraper.scrapers.bandzone_cz.BandzoneBandScraper;
 import com.kovospace.musicpagesscraper.utils.PlatformUtil;
 import java.util.List;
 import org.springframework.stereotype.Service;

@@ -15,7 +15,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class FreeTeknoMusicBandScraper extends BandScraperImpl {
+public  class FreeTeknoMusicBandScraper
+        extends BandScraperImpl
+{
     private final static String URL = "http://archive.freeteknomusic.org/";
     private static final String MP3_URL = "http://freeteknomusic.org/mp3/" ;
     private static final Pattern albumPattern = Pattern.compile("([^\\/]+)\\/[^\\/]+\\.mp3$");
@@ -40,7 +42,7 @@ public class FreeTeknoMusicBandScraper extends BandScraperImpl {
     }
 
     @Override
-    public String platformSlug() {
+    public String getPlatform() {
         return "freetekno";
     }
 
@@ -54,32 +56,37 @@ public class FreeTeknoMusicBandScraper extends BandScraperImpl {
     public void init() {}
 
     @Override
-    public String title() {
+    public String getTitle() {
         return slug;
     }
 
     @Override
-    public String imageUrl() {
+    public String getImageUrl() {
         return null;
     }
 
     @Override
-    public String href() {
+    public String getHref() {
         return URL + slug;
     }
 
-    @Override
-    public String genre() {
+  @Override
+  public String getSlug() {
+    return this.slug;
+  }
+
+  @Override
+    public String getGenre() {
         return null;
     }
 
     @Override
-    public String city() {
+    public String getCity() {
         return null;
     }
 
     @Override
-    public List<TrackInterface> tracks() {
+    public List<TrackInterface> getTracks() {
         return items
             .stream()
             .map(item -> new TrackInterface() {

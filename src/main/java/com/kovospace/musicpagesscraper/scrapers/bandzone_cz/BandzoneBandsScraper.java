@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BandzoneBandsScraper extends BandsScraperImpl {
+public  class BandzoneBandsScraper
+        extends BandsScraperImpl
+{
     private Element bandsContainer;
     private Elements bandContainers;
     private Element paginator;
