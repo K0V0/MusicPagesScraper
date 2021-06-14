@@ -1,7 +1,5 @@
 package com.kovospace.musicpagesscraper.scrapers;
 
-import com.kovospace.musicpagesscraper.interfaces.Bands;
-
 public abstract class BandsScraperImpl
                 extends MainScraper
                 implements BandsScraper

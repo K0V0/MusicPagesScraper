@@ -4,6 +4,7 @@ import com.kovospace.musicpagesscraper.helpers.UrlHelper;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,9 @@ public class FreeTeknoMusicScraper {
         try {
             document = Jsoup.connect(url).get();
             results = scrape(document, "", url);
-            results.remove(0); // folder up, infinite loop
+            if (results.size() > 0) {
+                results.remove(0); // folder up, otherwise infinite loop
+            }
             List<ScraperItem> results2 = new ArrayList<>();
             for (ScraperItem result : results) {
                 if (!mp3filePattern.matcher(result.getHref()).find()) {
@@ -55,34 +58,41 @@ public class FreeTeknoMusicScraper {
 
     // OMG WHYYYYY can I do "new ScraperItem() {...}" which is ABSTRACT class
     public List<ScraperItem> scrape(Document document, String search, String url) {
+        List<ScraperItem> result = new ArrayList<>();
 
-        List<ScraperItem> result = document
+        Element element = document
             .getElementById("main")
             .getElementById("text")
-            .getElementsByTag("table").first()
-            .getElementsByTag("a")
-            .stream()
-            .filter(elem -> !excludePattern.matcher(elem.attr("href")).find())
-            .map(elem -> new ScraperItem() {
-                @Override
-                public String getTitle() {
-                    return elem.text();
-                }
-                @Override
-                public String getHref() {
-                    String elemUrl = elem.attr("href");
-                    if (fullAdressPattern.matcher(elemUrl).find()) {
-                        return elemUrl;
-                    } else {
-                        return url + elemUrl;
+            .getElementsByTag("table")
+            .first();
+
+        if (element != null) {
+            result = element
+                .getElementsByTag("a")
+                .stream()
+                .filter(elem -> !excludePattern.matcher(elem.attr("href")).find())
+                .map(elem -> new ScraperItem() {
+                    @Override
+                    public String getTitle() {
+                        return elem.text();
                     }
-                }
-                @Override
-                public String getSlug() {
-                    return UrlHelper.decode(elem.attr("href"));
-                }
-            })
-            .collect(Collectors.toList());
+                    @Override
+                    public String getHref() {
+                        String elemUrl = elem.attr("href");
+                        if (fullAdressPattern.matcher(elemUrl).find()) {
+                            return elemUrl;
+                        } else {
+                            return url + elemUrl;
+                        }
+                    }
+                    @Override
+                    public String getSlug() {
+                        return UrlHelper.decode(elem.attr("href"));
+                    }
+                })
+                .collect(Collectors.toList());
+        }
+
         if (!search.equals("")) {
             result = result
                 .stream()
