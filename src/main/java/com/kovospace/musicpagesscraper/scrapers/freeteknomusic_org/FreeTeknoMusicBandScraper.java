@@ -3,8 +3,8 @@ package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
 import com.kovospace.musicpagesscraper.constants.VocabularyConstants;
-import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
-import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
+import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public  class FreeTeknoMusicBandScraper
     private static final String MP3_URL = "http://freeteknomusic.org/mp3/" ;
     private static final Pattern albumPattern = Pattern.compile("([^\\/]+)\\/[^\\/]+\\.mp3$");
     private String slug;
-    private List<ScraperItemInterface> items;
+    private List<ScraperItem> items;
 
     @Autowired
     private FreeTeknoMusicScraper scraper;
@@ -86,10 +86,10 @@ public  class FreeTeknoMusicBandScraper
     }
 
     @Override
-    public List<TrackInterface> getTracks() {
+    public List<Track> getTracks() {
         return items
             .stream()
-            .map(item -> new TrackInterface() {
+            .map(item -> new Track() {
                 @Override
                 public String getAlbum() {
                     String album;

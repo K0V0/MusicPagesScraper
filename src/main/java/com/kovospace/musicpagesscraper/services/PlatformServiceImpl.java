@@ -24,13 +24,12 @@ public  class PlatformServiceImpl
   public Platforms getAll() {
     List<Platform> platforms = platformRepository.getAll();
     return new Platforms() {
-      @Override
-      public List<Platform> getPlatforms() {
+      @Override public int getCurrentPageItemsCount() { return 0; }
+      @Override public int getPagesCount() { return 0; }
+      @Override public int getCurrentPageNum() { return 0; }
+      @Override public int getTotalItemsCount() { return platforms.size(); }
+      @Override public List<Platform> getPlatforms() {
         return platforms;
-      }
-      @Override
-      public int getTotalCount() {
-        return platforms.size();
       }
     };
   }

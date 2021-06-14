@@ -2,7 +2,8 @@ package com.kovospace.musicpagesscraper.interfaces;
 
 import java.util.List;
 
-public interface Platforms {
-  List<Platform> getPlatforms();
-  int getTotalCount();
+public  interface Platforms
+        extends PageableItem
+{
+    List<Platform> getPlatforms();
 }

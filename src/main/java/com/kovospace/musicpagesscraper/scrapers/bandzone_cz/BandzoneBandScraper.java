@@ -1,7 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
-import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -81,8 +81,8 @@ public  class BandzoneBandScraper
     }
 
     @Override
-    public List<TrackInterface> getTracks() {
-        List<TrackInterface> tracks = new ArrayList<>();
+    public List<Track> getTracks() {
+        List<Track> tracks = new ArrayList<>();
         Pattern urlRegex = Pattern.compile("^(http\\:\\/\\/|https\\:\\/\\/)?(www)?(bandzone\\.cz\\/track\\/)(play)(\\/)(\\d+)(.+)$");
         String urlReplacement = "http://$2$3download$5$6";
         Pattern durationRegex = Pattern.compile("^PT(\\d*)M?(\\d*\\.*\\d*)S*");
@@ -97,7 +97,7 @@ public  class BandzoneBandScraper
                 .matcher(trackContainer.attr("data-source"))
                 .replaceAll(urlReplacement);
 
-            tracks.add(new TrackInterface() {
+            tracks.add(new Track() {
                 @Override
                 public String getAlbum() {
                     String album;

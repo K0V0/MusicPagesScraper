@@ -1,6 +1,8 @@
 package com.kovospace.musicpagesscraper.interfaces;
 
-public interface TrackInterface extends ScraperItemInterface {
+public  interface Track
+        extends ScraperItem
+{
     String getAlbum();
     String getPlaysCount();
     String getHrefHash();

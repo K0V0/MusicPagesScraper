@@ -3,11 +3,11 @@ package com.kovospace.musicpagesscraper.interfaces;
 import java.util.List;
 
 public  interface Band
-        extends ScraperItemInterface
+        extends ScraperItem
 {
     String getImageUrl();
     String getGenre();
     String getCity();
     String getPlatform();
-    List<TrackInterface> getTracks();
+    List<Track> getTracks();
 }

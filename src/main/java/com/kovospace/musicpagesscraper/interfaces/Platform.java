@@ -6,5 +6,6 @@ public interface Platform {
   String getDescription();
   String getName();
   String getImageUrl();
+  String getClassName();
 
 }

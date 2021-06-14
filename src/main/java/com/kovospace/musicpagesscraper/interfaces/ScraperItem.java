@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.interfaces;
 
-public interface ScraperItemInterface {
+public interface ScraperItem {
     String getTitle();
     String getHref();
     String getSlug();

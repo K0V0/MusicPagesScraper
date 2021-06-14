@@ -7,6 +7,7 @@ import com.kovospace.musicpagesscraper.services.BandService;
 import com.kovospace.musicpagesscraper.services.BandsService;
 import com.kovospace.musicpagesscraper.services.PlatformService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,10 +44,10 @@ public class MainController {
   @GetMapping("/bands")
   // foo=value1&foo=value2&foo=value3
   // dat do String[]
-  public String getBands(
+  public Bands getBands(
     @RequestParam(defaultValue = "") String q,
     @RequestParam(defaultValue = "1") String p,
-    @RequestParam(required = false) List<String> s // which pages to scrape none = all supported
+    @RequestParam(required = false) Optional<List<String>> s // which pages to scrape none = all supported
   ) {
     return bandsService.getBands(q, p, s);
   }

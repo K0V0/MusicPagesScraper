@@ -2,10 +2,8 @@ package com.kovospace.musicpagesscraper.interfaces;
 
 import java.util.List;
 
-public interface Bands {
+public  interface Bands
+        extends PageableItem
+{
     List<Band> getBands();
-    int getCurrentPageItemsCount();
-    int getPagesCount();
-    int getCurrentPageNum();
-    int getTotalItemsCount();
 }

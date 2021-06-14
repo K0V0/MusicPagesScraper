@@ -1,8 +1,8 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.interfaces.Band;
-import com.kovospace.musicpagesscraper.interfaces.ScraperItemInterface;
-import com.kovospace.musicpagesscraper.interfaces.TrackInterface;
+import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
+import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
     private static final String URL = "http://archive.freeteknomusic.org/";
     private String searchedBand;
     private int pageNum;
-    private List<ScraperItemInterface> allBands;
+    private List<ScraperItem> allBands;
     private List<Band> bands;
 
     @Autowired
@@ -26,6 +26,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
     public FreeTeknoMusicBandsScraper() {
         super();
         allBands = new ArrayList<>();
+        bands = new ArrayList<>(); // added, check if does not cause problems when traversing subfolders recursively
     }
 
     @Override
@@ -90,7 +91,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
                     @Override
                     public String getPlatform() { return "freetekno"; }
                     @Override
-                    public List<TrackInterface> getTracks() { return null; }
+                    public List<Track> getTracks() { return null; }
                     @Override
                     public String getTitle() { return item.getTitle(); }
                     @Override

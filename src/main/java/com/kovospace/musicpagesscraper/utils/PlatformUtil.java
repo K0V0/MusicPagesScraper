@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface PlatformUtil {
 
-  boolean platformImplemented(String platformName);
   BandsScraper getPlatformBandsScraper(List<BandsScraper> bandsScrapers, String platformName);
   BandScraper getPlatformBandScraper(List<BandScraper> bandScrapers, String platformName);
 

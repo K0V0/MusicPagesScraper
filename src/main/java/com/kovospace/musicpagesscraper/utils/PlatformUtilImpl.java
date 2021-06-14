@@ -10,30 +10,36 @@ import org.springframework.stereotype.Component;
 public  class PlatformUtilImpl
         implements PlatformUtil
 {
-
-  @Override
-  public boolean platformImplemented(String platformName) {
-
-    return false;
-  }
-
   @Override
   public BandsScraper getPlatformBandsScraper(List<BandsScraper> bandsScrapers, String platformName) {
     for (BandsScraper bandsScraper : bandsScrapers) {
-      if (PlatformConstants.PLATFORM_INFOS.containsKey(platformName)) {
-        return bandsScraper;
+      if (platformExist(platformName)) {
+        if (classNameMatch(bandsScraper, platformName, "BandsScraper")) {
+          return bandsScraper;
+        }
       }
     }
-    return null;
+    return null; // throw some exceptions instead and catch later
   }
 
   @Override
   public BandScraper getPlatformBandScraper(List<BandScraper> bandScrapers, String platformName) {
     for (BandScraper bandScraper : bandScrapers) {
-      if (PlatformConstants.PLATFORM_INFOS.containsKey(platformName)) {
-        return bandScraper;
+      if (platformExist(platformName)) {
+        if (classNameMatch(bandScraper, platformName, "BandScraper")) {
+          return bandScraper;
+        }
       }
     }
-    return null;
+    return null; // throw some exceptions instead and catch later
+  }
+
+  public boolean platformExist(String platformName) {
+    return PlatformConstants.PLATFORM_INFOS.containsKey(platformName);
+  }
+
+  public boolean classNameMatch(Object object, String platformName, String suffix) {
+    String className = PlatformConstants.PLATFORM_INFOS.get(platformName).getClassName() + suffix;
+    return object.getClass().getSimpleName().equals(className);
   }
 }
