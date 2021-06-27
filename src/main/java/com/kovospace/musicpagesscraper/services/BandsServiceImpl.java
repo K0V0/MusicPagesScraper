@@ -2,15 +2,13 @@ package com.kovospace.musicpagesscraper.services;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.dtos.PageableCounterDTO;
+import com.kovospace.musicpagesscraper.factories.BandsScrapersFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
-import com.kovospace.musicpagesscraper.interfaces.PageableItem;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
-import com.kovospace.musicpagesscraper.utils.PlatformUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,23 +16,18 @@ import org.springframework.stereotype.Service;
 public  class BandsServiceImpl
         implements BandsService
 {
-  private List<BandsScraper> bandsScrapers;
-  private PlatformUtil platformUtil;
+  private BandsScrapersFactory factory;
 
   @Autowired
   public BandsServiceImpl(
-    List<BandsScraper> bandsScrapers,
-    PlatformUtil platformUtil
+    BandsScrapersFactory factory
   ) {
-    this.bandsScrapers = bandsScrapers;
-    this.platformUtil = platformUtil;
+    this.factory = factory;
   }
 
   @Override
   public Bands getBands(String query, String page, String platform) {
-    BandsScraper bandsScraper = platformUtil.getPlatformBandsScraper(bandsScrapers, platform);
-    bandsScraper.fetch(query, page);
-    return bandsScraper;
+    return factory.build(platform).fetch(query, page);
   }
 
   @Override
@@ -46,7 +39,7 @@ public  class BandsServiceImpl
       .orElseGet(() -> new ArrayList<>(PlatformConstants.PLATFORM_INFOS.keySet()));
 
     for (String scraper : scrapers) {
-      BandsScraper bandsScraper = platformUtil.getPlatformBandsScraper(bandsScrapers, scraper);
+      BandsScraper bandsScraper = factory.build(scraper);
       bandsScraper.fetch(query, page);
       bands.addAll(bandsScraper.getBands());
       counter.add(bandsScraper);

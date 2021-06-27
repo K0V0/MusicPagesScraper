@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
+import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
@@ -12,7 +13,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
+public  class FreeTeknoMusicBandsScraper
+        extends BandsScraperImpl
+{
     private static final int ITEMS_PER_PAGE = 20;
     private static final String URL = "http://archive.freeteknomusic.org/";
     private String searchedBand;
@@ -26,7 +29,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
     public FreeTeknoMusicBandsScraper() {
         super();
         allBands = new ArrayList<>();
-        bands = new ArrayList<>(); // added, check if does not cause problems when traversing subfolders recursively
+        bands = new ArrayList<>();
     }
 
     @Override
@@ -38,8 +41,9 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
 
     @Override
     public void init() {
-        scraper.setExcludePattern(Pattern.compile("^\\?C\\=\\w\\;|http\\:\\/\\/"));
-        allBands = scraper.scrape(document, searchedBand, URL);
+      bands.clear();
+      scraper.setExcludePattern(Pattern.compile("^\\?C\\=\\w\\;|http\\:\\/\\/"));
+      allBands = scraper.scrape(document, searchedBand, URL);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
 
     @Override
     public int getCurrentPageItemsCount() {
-        return bands.size();
+      return bands.size();
     }
 
     @Override
@@ -89,7 +93,7 @@ public class FreeTeknoMusicBandsScraper extends BandsScraperImpl {
                         return null;
                     }
                     @Override
-                    public String getPlatform() { return "freetekno"; }
+                    public String getPlatform() { return PlatformConstants.PLATFORM_INFOS.get("freeteknomusic").getSlug(); }
                     @Override
                     public List<Track> getTracks() { return null; }
                     @Override

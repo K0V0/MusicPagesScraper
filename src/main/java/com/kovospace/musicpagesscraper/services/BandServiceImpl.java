@@ -1,30 +1,25 @@
 package com.kovospace.musicpagesscraper.services;
 
+import com.kovospace.musicpagesscraper.factories.BandScrapersFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
-import com.kovospace.musicpagesscraper.scrapers.BandScraper;
-import com.kovospace.musicpagesscraper.utils.PlatformUtil;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public  class BandServiceImpl
         implements BandService
 {
-  private List<BandScraper> bandScrapers;
-  private PlatformUtil platformUtil;
+  private BandScrapersFactory factory;
 
+  @Autowired
   public BandServiceImpl(
-      List<BandScraper> bandScrapers,
-      PlatformUtil platformUtil
+    BandScrapersFactory factory
   ) {
-    this.bandScrapers = bandScrapers;
-    this.platformUtil = platformUtil;
+    this.factory = factory;
   }
 
   @Override
   public Band getBand(String slug, String platform) {
-    BandScraper bandScraper = platformUtil.getPlatformBandScraper(bandScrapers, platform);
-    bandScraper.fetch(slug);
-    return bandScraper;
+    return factory.build(platform).fetch(slug);
   }
 }

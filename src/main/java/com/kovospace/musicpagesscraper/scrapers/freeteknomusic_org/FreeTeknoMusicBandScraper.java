@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
+import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.helpers.MD5helper;
 import com.kovospace.musicpagesscraper.helpers.UrlHelper;
 import com.kovospace.musicpagesscraper.constants.VocabularyConstants;
@@ -43,7 +44,7 @@ public  class FreeTeknoMusicBandScraper
 
     @Override
     public String getPlatform() {
-        return "freetekno";
+        return PlatformConstants.PLATFORM_INFOS.get("freeteknomusic").getSlug();
     }
 
     @Override

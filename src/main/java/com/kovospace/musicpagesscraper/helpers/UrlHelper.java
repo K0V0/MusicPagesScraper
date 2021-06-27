@@ -21,5 +21,4 @@ public class UrlHelper {
             throw new RuntimeException(e.getCause());
         }
     }
-
 }

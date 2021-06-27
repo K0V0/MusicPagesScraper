@@ -7,5 +7,5 @@ public  interface BandsScraper
 {
     String requestUrl(String searchedBand, String pageNum);
     void init();
-    void fetch(String searchedBand, String pageNum);
+    BandsScraper fetch(String searchedBand, String pageNum);
 }

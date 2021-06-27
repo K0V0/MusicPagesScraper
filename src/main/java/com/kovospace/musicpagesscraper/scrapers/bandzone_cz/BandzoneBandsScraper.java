@@ -16,11 +16,13 @@ public  class BandzoneBandsScraper
     private Element bandsContainer;
     private Elements bandContainers;
     private Element paginator;
+    private int currentPageNum;
 
     public BandzoneBandsScraper() { super(); }
 
     @Override
     public String requestUrl(String searchedBand, String pageNum) {
+        this.currentPageNum = Integer.parseInt(pageNum);
         return String.format("https://bandzone.cz/kapely.html?q=%s&p=%s", searchedBand, pageNum);
     }
 
@@ -36,13 +38,14 @@ public  class BandzoneBandsScraper
         if (paginator == null) {
             return 1;
         } else {
-            return Integer.parseInt(paginator.getElementsByClass("current").first().text());
+            //return Integer.parseInt(paginator.getElementsByClass("current").first().text());
+            return currentPageNum;
         }
     }
 
     @Override
     public int getCurrentPageItemsCount() {
-        return bandContainers.size();
+        return paginationOverlap() ? 0 : bandContainers.size();
     }
 
     @Override
@@ -66,39 +69,58 @@ public  class BandzoneBandsScraper
     @Override
     public List<Band> getBands() {
         List<Band> bands = new ArrayList<>();
-        for (Element bandContainer : bandContainers) {
-            bands.add(new Band() {
-                @Override
-                public String getImageUrl() {
-                    return bandContainer.getElementsByTag("img").first().attr("src");
-                }
-                @Override
-                public String getGenre() {
-                    return bandContainer.getElementsByClass("genre").first().text();
-                }
-                @Override
-                public String getCity() {
-                    return bandContainer.getElementsByClass("city").first().text();
-                }
-                @Override
-                public String getPlatform() { return "bandzone"; }
-                @Override
-                public List<Track> getTracks() { return null; }
-                @Override
-                public String getTitle() {
-                    return bandContainer.getElementsByTag("h4").first().text();
-                }
-                @Override
-                public String getHref() {
-                    return "https://bandzone.cz" + bandContainer.getElementsByTag("a").first().attr("href");
-                }
-                @Override
-                public String getSlug() {
-                    return bandContainer.getElementsByTag("a").first().attr("href").replace("/", "");
-                }
-            });
+        System.out.println(getCurrentPageItemsCount());
+        System.out.println(getCurrentPageNum());
+        System.out.println(getTotalItemsCount());
+        System.out.println(getPagesCount());
+
+        if (!paginationOverlap()) {
+            for (Element bandContainer : bandContainers) {
+                bands.add(new Band() {
+                    @Override
+                    public String getImageUrl() {
+                        return bandContainer.getElementsByTag("img").first().attr("src");
+                    }
+                    @Override
+                    public String getGenre() {
+                        return bandContainer.getElementsByClass("genre").first().text();
+                    }
+                    @Override
+                    public String getCity() {
+                        return bandContainer.getElementsByClass("city").first().text();
+                    }
+                    @Override
+                    public String getPlatform() {
+                        return "bandzone";
+                    }
+                    @Override
+                    public List<Track> getTracks() {
+                        return null;
+                    }
+                    @Override
+                    public String getTitle() {
+                        return bandContainer.getElementsByTag("h4").first().text();
+                    }
+                    @Override
+                    public String getHref() {
+                        return "https://bandzone.cz" + bandContainer.getElementsByTag("a").first()
+                            .attr("href");
+                    }
+                    @Override
+                    public String getSlug() {
+                        return bandContainer.getElementsByTag("a").first().attr("href")
+                            .replace("/", "");
+                    }
+                });
+            }
         }
         return bands;
+    }
+
+    private boolean paginationOverlap() {
+        return currentPageNum > getPagesCount();
+        // ^ Bandzone.cz BUGfix
+        // or maybe throw exception if page overlap
     }
 
 }
