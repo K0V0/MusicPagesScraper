@@ -4,6 +4,7 @@ import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ public  class BandzoneBandsScraper
     }
 
     @Override
-    public void init() {
+    public boolean init() {
         bandsContainer = document.getElementById("searchResults");
-        bandContainers = bandsContainer.getElementsByClass("profileLink");
+        if (bandsContainer == null) { return false; }
+        bandContainers = bandsContainer.getElementsByClass("profileLink"); //NPE
         paginator = document.getElementsByClass("paginator").first();
+        return true;
     }
 
     @Override
@@ -123,4 +126,7 @@ public  class BandzoneBandsScraper
         // or maybe throw exception if page overlap
     }
 
+    private void preventNPE() {
+
+    }
 }

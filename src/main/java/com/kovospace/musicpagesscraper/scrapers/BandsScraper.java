@@ -6,6 +6,6 @@ public  interface BandsScraper
         extends Bands
 {
     String requestUrl(String searchedBand, String pageNum);
-    void init();
+    boolean init();
     BandsScraper fetch(String searchedBand, String pageNum);
 }

@@ -6,7 +6,6 @@ public abstract class BandsScraperImpl
 {
     public BandsScraper fetch(String searchedBand, String pageNum) {
       getDocument( requestUrl(searchedBand, pageNum) ); // requestUrl() filled in subclasses
-      init(); // in subclasses
-      return this;
+      return init() ? this : null;
     }
 }
