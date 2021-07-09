@@ -1,5 +1,8 @@
 package com.kovospace.musicpagesscraper.controllers;
 
+import com.kovospace.musicpagesscraper.exceptions.PageException;
+import com.kovospace.musicpagesscraper.exceptions.ScraperException;
+import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundException;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.interfaces.Platforms;
@@ -37,7 +40,8 @@ public class MainController {
     @RequestParam(defaultValue = "") String q,
     @RequestParam(defaultValue = "1") String p,
     @PathVariable String s
-  ) {
+  )
+  throws PageException, ScraperException {
     return bandsService.getBands(q, p, s);
   }
 
@@ -56,7 +60,8 @@ public class MainController {
   public Band getBand(
     @RequestParam String q,
     @PathVariable String s
-  ) {
+  )
+  throws ScraperException {
     return bandService.getBand(q, s);
   }
 

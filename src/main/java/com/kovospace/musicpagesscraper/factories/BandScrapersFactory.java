@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.factories;
 
+import com.kovospace.musicpagesscraper.exceptions.ScraperException;
 import com.kovospace.musicpagesscraper.scrapers.BandScraper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,13 @@ public  class BandScrapersFactory
 
   @Autowired
   public BandScrapersFactory(
-      List<BandScraper> bandScrapers
+    List<BandScraper> bandScrapers
   ) {
     this.bandScrapers = bandScrapers;
   }
 
-  public BandScraper build(String platform) {
+  public BandScraper build(String platform)
+  throws ScraperException {
     return (BandScraper) getPlatformScraper(platform, bandScrapers);
   }
 }

@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.helpers.UrlHelper;
+import com.kovospace.musicpagesscraper.utils.UrlUtil;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,7 +44,7 @@ public class FreeTeknoMusicScraper {
                     matcher = directoryPatternFix.matcher(result.getHref());
                     if (matcher.find()) {
                         results2.addAll(
-                            scrape(url + "/" + UrlHelper.decode( matcher.group(0)))
+                            scrape(url + "/" + UrlUtil.decode( matcher.group(0)))
                         );
                     }
                 }
@@ -87,7 +87,7 @@ public class FreeTeknoMusicScraper {
                     }
                     @Override
                     public String getSlug() {
-                        return UrlHelper.decode(elem.attr("href"));
+                        return UrlUtil.decode(elem.attr("href"));
                     }
                 })
                 .collect(Collectors.toList());

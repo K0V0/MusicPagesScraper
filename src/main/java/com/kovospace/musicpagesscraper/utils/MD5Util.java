@@ -1,10 +1,10 @@
-package com.kovospace.musicpagesscraper.helpers;
+package com.kovospace.musicpagesscraper.utils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5helper
+public class MD5Util
 {
     public static String hash(String input) {
         try {

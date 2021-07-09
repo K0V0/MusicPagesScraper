@@ -1,6 +1,9 @@
 package com.kovospace.musicpagesscraper.factories;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
+import com.kovospace.musicpagesscraper.exceptions.ScraperException;
+import com.kovospace.musicpagesscraper.exceptions.scraperException.NoPlatformException;
+import com.kovospace.musicpagesscraper.exceptions.scraperException.NoScraperException;
 import java.util.List;
 
 public abstract class ScrapersFactory
@@ -14,20 +17,23 @@ public abstract class ScrapersFactory
     return object.getClass().getSimpleName().equals(className);
   }
 
-  protected Object getPlatformScraper(String platform, List<?> scrapers) {
+  protected Object getPlatformScraper(String platform, List<?> scrapers)
+  throws ScraperException
+  {
     String scraperType = "";
     if (scrapers.size() < 1) {
-      return null; // throw some exceptions instead and catch later
+      throw new NoScraperException();
     } else {
       scraperType = scrapers.get(0).getClass().getSuperclass().getSimpleName().replace("Impl", "");
     }
-    for (Object scraper : scrapers) {
-      if (platformExist(platform)) {
+    if (platformExist(platform)) {
+      for (Object scraper : scrapers) {
         if (classNameMatch(scraper, platform, scraperType)) {
           return scraper;
         }
       }
+      throw new NoScraperException();
     }
-    return null; // throw some exceptions instead and catch later
+    throw new NoPlatformException();
   }
 }

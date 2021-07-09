@@ -1,10 +1,10 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
+import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundException;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import java.util.List;
 public  class BandzoneBandsScraper
         extends BandsScraperImpl
 {
+    private Element section;
     private Element bandsContainer;
     private Elements bandContainers;
     private Element paginator;
@@ -28,12 +29,12 @@ public  class BandzoneBandsScraper
     }
 
     @Override
-    public boolean init() {
+    public void init() throws PageNotFoundException {
+        section = document.getElementById("bandSearch");
         bandsContainer = document.getElementById("searchResults");
-        if (bandsContainer == null) { return false; }
+        if (bandsContainer == null) { throw new PageNotFoundException(); }
         bandContainers = bandsContainer.getElementsByClass("profileLink"); //NPE
         paginator = document.getElementsByClass("paginator").first();
-        return true;
     }
 
     @Override
@@ -41,7 +42,6 @@ public  class BandzoneBandsScraper
         if (paginator == null) {
             return 1;
         } else {
-            //return Integer.parseInt(paginator.getElementsByClass("current").first().text());
             return currentPageNum;
         }
     }
@@ -124,9 +124,5 @@ public  class BandzoneBandsScraper
         return currentPageNum > getPagesCount();
         // ^ Bandzone.cz BUGfix
         // or maybe throw exception if page overlap
-    }
-
-    private void preventNPE() {
-
     }
 }

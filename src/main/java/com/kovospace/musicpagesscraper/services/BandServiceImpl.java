@@ -1,5 +1,6 @@
 package com.kovospace.musicpagesscraper.services;
 
+import com.kovospace.musicpagesscraper.exceptions.ScraperException;
 import com.kovospace.musicpagesscraper.factories.BandScrapersFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public  class BandServiceImpl
   }
 
   @Override
-  public Band getBand(String slug, String platform) {
+  public Band getBand(String slug, String platform)
+  throws ScraperException {
     return factory.build(platform).fetch(slug);
   }
 }

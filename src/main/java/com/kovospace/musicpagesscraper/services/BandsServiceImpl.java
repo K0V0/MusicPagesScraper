@@ -2,6 +2,9 @@ package com.kovospace.musicpagesscraper.services;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.dtos.PageableCounterDTO;
+import com.kovospace.musicpagesscraper.exceptions.PageException;
+import com.kovospace.musicpagesscraper.exceptions.ScraperException;
+import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundException;
 import com.kovospace.musicpagesscraper.factories.BandsScrapersFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
@@ -26,7 +29,8 @@ public  class BandsServiceImpl
   }
 
   @Override
-  public Bands getBands(String query, String page, String platform) {
+  public Bands getBands(String query, String page, String platform)
+  throws PageException, ScraperException {
     return factory.build(platform).fetch(query, page);
   }
 
@@ -39,10 +43,16 @@ public  class BandsServiceImpl
       .orElseGet(() -> new ArrayList<>(PlatformConstants.PLATFORM_INFOS.keySet()));
 
     for (String scraper : scrapers) {
-      BandsScraper bandsScraper = factory.build(scraper);
-      bandsScraper.fetch(query, page);
-      bands.addAll(bandsScraper.getBands());
-      counter.add(bandsScraper);
+      try {
+        BandsScraper bandsScraper = factory.build(scraper);
+        bandsScraper.fetch(query, page);
+        bands.addAll(bandsScraper.getBands());
+        counter.add(bandsScraper);
+      } catch (PageException e) {
+        // do nothing yet
+      } catch (ScraperException e) {
+        // do nothing yet
+      }
     }
 
     return new Bands() {

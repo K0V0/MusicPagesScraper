@@ -40,11 +40,10 @@ public  class FreeTeknoMusicBandsScraper
     }
 
     @Override
-    public boolean init() {
+    public void init() {
       bands.clear();
       scraper.setExcludePattern(Pattern.compile("^\\?C\\=\\w\\;|http\\:\\/\\/"));
       allBands = scraper.scrape(document, searchedBand, URL);
-      return true;
     }
 
     @Override

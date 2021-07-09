@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
-import com.kovospace.musicpagesscraper.helpers.MD5helper;
+import com.kovospace.musicpagesscraper.utils.MD5Util;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.jsoup.nodes.Element;
@@ -119,7 +119,7 @@ public  class BandzoneBandScraper
 
                 @Override
                 public String getHrefHash() {
-                    return MD5helper.hash(href);
+                    return MD5Util.hash(href);
                 }
 
                 @Override

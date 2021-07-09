@@ -1,10 +1,10 @@
-package com.kovospace.musicpagesscraper.helpers;
+package com.kovospace.musicpagesscraper.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class UrlHelper {
+public class UrlUtil {
 
     public static String encode(String value) {
         try {

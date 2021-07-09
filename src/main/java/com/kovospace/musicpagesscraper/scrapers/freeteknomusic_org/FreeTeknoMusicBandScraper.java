@@ -1,8 +1,8 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
-import com.kovospace.musicpagesscraper.helpers.MD5helper;
-import com.kovospace.musicpagesscraper.helpers.UrlHelper;
+import com.kovospace.musicpagesscraper.utils.MD5Util;
+import com.kovospace.musicpagesscraper.utils.UrlUtil;
 import com.kovospace.musicpagesscraper.constants.VocabularyConstants;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
@@ -94,7 +94,7 @@ public  class FreeTeknoMusicBandScraper
                 @Override
                 public String getAlbum() {
                     String album;
-                    String part = UrlHelper.decode(item.getHref())
+                    String part = UrlUtil.decode(item.getHref())
                         .replace(MP3_URL + slug + "/", "");
                     Matcher matcher = albumPattern.matcher(part);
                     if (matcher.find()) {
@@ -110,7 +110,7 @@ public  class FreeTeknoMusicBandScraper
                 }
                 @Override
                 public String getHrefHash() {
-                    return MD5helper.hash(item.getHref());
+                    return MD5Util.hash(item.getHref());
                 }
                 @Override
                 public String getDuration() {
