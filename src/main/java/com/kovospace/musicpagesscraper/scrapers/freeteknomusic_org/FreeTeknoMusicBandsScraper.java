@@ -5,6 +5,8 @@ import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicBand;
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -79,19 +81,7 @@ public  class FreeTeknoMusicBandsScraper
             bands = allBands
                 .subList(start, end)
                 .stream()
-                .map(item -> new Band() {
-                    @Override
-                    public String getImageUrl() {
-                        return null;
-                    }
-                    @Override
-                    public String getGenre() {
-                        return null;
-                    }
-                    @Override
-                    public String getCity() {
-                        return null;
-                    }
+                .map(item -> new FreeTeknoMusicBand() {
                     @Override
                     public String getPlatform() { return PlatformConstants.PLATFORM_INFOS.get("freeteknomusic").getSlug(); }
                     @Override

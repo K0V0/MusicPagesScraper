@@ -1,6 +1,8 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicTrack;
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import com.kovospace.musicpagesscraper.utils.MD5Util;
 import com.kovospace.musicpagesscraper.utils.UrlUtil;
 import com.kovospace.musicpagesscraper.constants.VocabularyConstants;
@@ -62,37 +64,22 @@ public  class FreeTeknoMusicBandScraper
     }
 
     @Override
-    public String getImageUrl() {
-        return null;
-    }
-
-    @Override
     public String getHref() {
         return URL + slug;
     }
 
-  @Override
-  public String getSlug() {
-    return this.slug;
-  }
-
-  @Override
-    public String getGenre() {
-        return null;
-    }
-
     @Override
-    public String getCity() {
-        return null;
+    public String getSlug() {
+        return this.slug;
     }
 
     @Override
     public List<Track> getTracks() {
         return items
             .stream()
-            .map(item -> new Track() {
+            .map(item -> new FreeTeknoMusicTrack() {
                 @Override
-                public String getAlbum() {
+                public String getAlbumTitle() {
                     String album;
                     String part = UrlUtil.decode(item.getHref())
                         .replace(MP3_URL + slug + "/", "");
@@ -104,28 +91,19 @@ public  class FreeTeknoMusicBandScraper
                     }
                     return album;
                 }
-                @Override
-                public String getPlaysCount() {
-                    return null;
-                }
-                @Override
-                public String getHrefHash() {
+                // TODO prezistit ci by sa nedali ziskat tieto info
+                @Override public String getAlbumReleaseYear() { return null; }
+                @Override public String getAlbumLabel() { return null; }
+                @Override public String getHrefHash() {
                     return MD5Util.hash(item.getHref());
                 }
-                @Override
-                public String getDuration() {
-                    return null;
-                }
-                @Override
-                public String getTitle() {
+                @Override public String getTitle() {
                     return item.getTitle();
                 }
-                @Override
-                public String getHref() {
+                @Override public String getHref() {
                     return item.getHref();
                 }
-                @Override
-                public String getSlug() {
+                @Override public String getSlug() {
                     return item.getSlug();
                 }
             })

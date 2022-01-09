@@ -128,8 +128,8 @@ output:
 
 ## Development.log
 
-| Day | Task(s) of the day |
-| --- | --- |
+| Day         | Task(s) of the day |
+|-------------| --- |
 | 20.mar.2021 | only base structure of the app |
 | 21.mar.2021 | added Bandzone.cz support, readmes for repo, deploying app on VPS |
 | 22.mar.2021 | support for Freeteknomusic.org - only bands listing part |
@@ -138,3 +138,5 @@ output:
 | 14.jun.2021 | scraping multiple pages done, found and resolved bug on freeteknomusic.org scraper |
 | 27.jun.2021 | resolved bug reporting wrong items count for pages other than first, fixed bandzone bug that allow to query infinite page number displaying last page, DRYied services, made factory design for scrapers |
 | 09.jul.2021 | exception handling, bandzone no bands bug resolved |
+| 08.jan.2022 | fix due to changes in bandzone webpage |
+| 09.jan.2022 | refactor of some concepts of app, null pointer safety precautions |

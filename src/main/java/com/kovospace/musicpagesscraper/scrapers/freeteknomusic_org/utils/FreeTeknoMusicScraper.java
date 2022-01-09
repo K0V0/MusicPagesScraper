@@ -1,4 +1,4 @@
-package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
+package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils;
 
 import com.kovospace.musicpagesscraper.utils.UrlUtil;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;

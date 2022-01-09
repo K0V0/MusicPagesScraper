@@ -2,7 +2,6 @@ package com.kovospace.musicpagesscraper.controllers;
 
 import com.kovospace.musicpagesscraper.exceptions.PageException;
 import com.kovospace.musicpagesscraper.exceptions.ScraperException;
-import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundException;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.interfaces.Platforms;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+// TODO poriesti kodovanie - divne znaky na strane klienta
 
 @RestController
 public class MainController {
@@ -60,9 +61,8 @@ public class MainController {
   public Band getBand(
     @RequestParam String q,
     @PathVariable String s
-  )
-  throws ScraperException {
-    return bandService.getBand(q, s);
+  ) throws ScraperException {
+      return bandService.getBand(q, s);
   }
 
   @GetMapping("/platforms")

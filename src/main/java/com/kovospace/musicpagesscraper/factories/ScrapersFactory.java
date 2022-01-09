@@ -21,7 +21,7 @@ public abstract class ScrapersFactory
   throws ScraperException
   {
     String scraperType = "";
-    if (scrapers.size() < 1) {
+    if (scrapers.isEmpty()) {
       throw new NoScraperException();
     } else {
       scraperType = scrapers.get(0).getClass().getSuperclass().getSimpleName().replace("Impl", "");

@@ -4,12 +4,14 @@ import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundExce
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
+import com.kovospace.musicpagesscraper.scrapers.bandzone_cz.interfaces.BandzoneBand;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO pouzivat vsade Optional(), toto je zrele na Cernobyl
 @Service
 public  class BandzoneBandsScraper
         extends BandsScraperImpl
@@ -72,14 +74,10 @@ public  class BandzoneBandsScraper
     @Override
     public List<Band> getBands() {
         List<Band> bands = new ArrayList<>();
-        System.out.println(getCurrentPageItemsCount());
-        System.out.println(getCurrentPageNum());
-        System.out.println(getTotalItemsCount());
-        System.out.println(getPagesCount());
 
         if (!paginationOverlap()) {
             for (Element bandContainer : bandContainers) {
-                bands.add(new Band() {
+                bands.add(new BandzoneBand() {
                     @Override
                     public String getImageUrl() {
                         return bandContainer.getElementsByTag("img").first().attr("src");

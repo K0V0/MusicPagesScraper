@@ -3,6 +3,7 @@ package com.kovospace.musicpagesscraper.constants;
 import com.kovospace.musicpagesscraper.interfaces.Platform;
 import java.util.HashMap;
 
+// TODO prerobit do .properties suborov a vyriesit i18n
 public class PlatformConstants {
 
   public static final HashMap<String, Platform> PLATFORM_INFOS = new HashMap<String, Platform>() {{

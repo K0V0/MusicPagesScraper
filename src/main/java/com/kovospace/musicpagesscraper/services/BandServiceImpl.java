@@ -20,8 +20,7 @@ public  class BandServiceImpl
   }
 
   @Override
-  public Band getBand(String slug, String platform)
-  throws ScraperException {
+  public Band getBand(String slug, String platform) throws ScraperException {
     return factory.build(platform).fetch(slug);
   }
 }

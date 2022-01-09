@@ -1,7 +1,5 @@
 package com.kovospace.musicpagesscraper.exceptions;
 
-public  class ScraperException
-        extends Exception
-{
+public abstract class ScraperException extends Exception {
 
 }
