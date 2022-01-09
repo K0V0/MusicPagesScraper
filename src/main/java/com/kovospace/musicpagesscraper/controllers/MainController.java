@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 // TODO poriesti kodovanie - divne znaky na strane klienta
 
 @RestController
-//@RequestMapping(value = "/YOUR_URL_Name",method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 public class MainController {
 
   private BandsService bandsService;
@@ -34,7 +33,7 @@ public class MainController {
     this.platformService = platformService;
   }
 
-  @GetMapping(value = "/{s}/bands", produces = "application/json; charset=utf-8")
+  @GetMapping(value = "/{s}/bands", produces = "application/json;charset=utf-8")
   public Bands getBands(
     @RequestParam(defaultValue = "") String q,
     @RequestParam(defaultValue = "1") String p,
@@ -44,7 +43,7 @@ public class MainController {
     return bandsService.getBands(q, p, s);
   }
 
-  @GetMapping(value = "/bands", produces = "application/json; charset=utf-8")
+  @GetMapping(value = "/bands", produces = "application/json;charset=utf-8")
   // foo=value1&foo=value2&foo=value3
   // dat do String[]
   public Bands getBands(
@@ -55,7 +54,7 @@ public class MainController {
     return bandsService.getBands(q, p, s);
   }
 
-  @GetMapping(value = "/{s}/band", produces = "application/json; charset=utf-8")
+  @GetMapping(value = "/{s}/band", produces = "application/json;charset=utf-8")
   public Band getBand(
     @RequestParam String q,
     @PathVariable String s
@@ -63,7 +62,7 @@ public class MainController {
       return bandService.getBand(q, s);
   }
 
-  @GetMapping(value = "/platforms", produces = "application/json; charset=utf-8")
+  @GetMapping(value = "/platforms", produces = "application/json;charset=utf-8")
   public Platforms getPlatforms(
     @RequestParam(defaultValue = "1", required = false) String p
   ) {
