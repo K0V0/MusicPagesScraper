@@ -11,14 +11,12 @@ import com.kovospace.musicpagesscraper.services.PlatformService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // TODO poriesti kodovanie - divne znaky na strane klienta
 
 @RestController
+//@RequestMapping(value = "/YOUR_URL_Name",method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 public class MainController {
 
   private BandsService bandsService;
@@ -36,7 +34,7 @@ public class MainController {
     this.platformService = platformService;
   }
 
-  @GetMapping("/{s}/bands")
+  @GetMapping(value = "/{s}/bands", produces = "application/json; charset=utf-8")
   public Bands getBands(
     @RequestParam(defaultValue = "") String q,
     @RequestParam(defaultValue = "1") String p,
@@ -46,7 +44,7 @@ public class MainController {
     return bandsService.getBands(q, p, s);
   }
 
-  @GetMapping("/bands")
+  @GetMapping(value = "/bands", produces = "application/json; charset=utf-8")
   // foo=value1&foo=value2&foo=value3
   // dat do String[]
   public Bands getBands(
@@ -57,7 +55,7 @@ public class MainController {
     return bandsService.getBands(q, p, s);
   }
 
-  @GetMapping("/{s}/band")
+  @GetMapping(value = "/{s}/band", produces = "application/json; charset=utf-8")
   public Band getBand(
     @RequestParam String q,
     @PathVariable String s
@@ -65,7 +63,7 @@ public class MainController {
       return bandService.getBand(q, s);
   }
 
-  @GetMapping("/platforms")
+  @GetMapping(value = "/platforms", produces = "application/json; charset=utf-8")
   public Platforms getPlatforms(
     @RequestParam(defaultValue = "1", required = false) String p
   ) {
