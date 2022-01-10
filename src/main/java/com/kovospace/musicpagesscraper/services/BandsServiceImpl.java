@@ -1,36 +1,40 @@
 package com.kovospace.musicpagesscraper.services;
 
-import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.dtos.PageableCounterDTO;
 import com.kovospace.musicpagesscraper.exceptions.FactoryException;
 import com.kovospace.musicpagesscraper.exceptions.PageException;
-import com.kovospace.musicpagesscraper.utils.FactoryUtil;
+import com.kovospace.musicpagesscraper.factories.scrapers.BandsScraperFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public  class BandsServiceImpl
         implements BandsService
 {
-  private FactoryUtil<BandsScraper> scrapersFactoryUtil;
+  private BandsScraperFactory bandsScraperFactory;
+
+  @Value("#{${platforms}}")
+  private Map<String, String> allPlatforms;
 
   @Autowired
   public BandsServiceImpl(
-          FactoryUtil<BandsScraper> scrapersFactoryUtil
+          BandsScraperFactory bandsScraperFactory
   ) {
-    this.scrapersFactoryUtil = scrapersFactoryUtil;
+    this.bandsScraperFactory = bandsScraperFactory;
   }
 
   @Override
   public Bands getBands(String query, String page, String platform)
   throws PageException, FactoryException {
-    return scrapersFactoryUtil.build(platform).fetch(query, page);
+    return bandsScraperFactory.build(platform).fetch(query, page);
   }
 
   @Override
@@ -39,11 +43,11 @@ public  class BandsServiceImpl
     PageableCounterDTO counter = new PageableCounterDTO();
     counter.setCurrentPageNum(Integer.parseInt(page));
     List<String> scrapers = platforms
-      .orElseGet(() -> new ArrayList<>(PlatformConstants.PLATFORM_INFOS.keySet()));
+      .orElseGet(() -> new ArrayList<>(allPlatforms.keySet()));
 
     for (String scraper : scrapers) {
       try {
-        BandsScraper bandsScraper = scrapersFactoryUtil.build(scraper);
+        BandsScraper bandsScraper = bandsScraperFactory.build(scraper);
         bandsScraper.fetch(query, page);
         bands.addAll(bandsScraper.getBands());
         counter.add(bandsScraper);

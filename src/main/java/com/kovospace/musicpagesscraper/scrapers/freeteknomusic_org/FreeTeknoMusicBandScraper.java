@@ -1,11 +1,9 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicTrack;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import com.kovospace.musicpagesscraper.utils.MD5Util;
 import com.kovospace.musicpagesscraper.utils.UrlUtil;
-import com.kovospace.musicpagesscraper.constants.VocabularyConstants;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
@@ -46,7 +44,7 @@ public  class FreeTeknoMusicBandScraper
 
     @Override
     public String getPlatform() {
-        return PlatformConstants.PLATFORM_INFOS.get("freeteknomusic").getSlug();
+        return "freeteknomusic";
     }
 
     @Override
@@ -87,7 +85,7 @@ public  class FreeTeknoMusicBandScraper
                     if (matcher.find()) {
                         album = matcher.group(1);
                     } else {
-                        album = VocabularyConstants.noAlbum;
+                        album = "Nezaradené";
                     }
                     return album;
                 }

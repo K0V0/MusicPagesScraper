@@ -26,6 +26,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.modelmapper:modelmapper:2.4.0'
 }
 
 test {

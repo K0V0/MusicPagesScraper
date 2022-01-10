@@ -1,6 +1,6 @@
 package com.kovospace.musicpagesscraper.cahcers;
 
-public  class BandCacherImpl
+public  abstract class BandCacherImpl
         implements BandCacher
 {
 

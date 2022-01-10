@@ -1,6 +1,5 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
@@ -83,7 +82,7 @@ public  class FreeTeknoMusicBandsScraper
                 .stream()
                 .map(item -> new FreeTeknoMusicBand() {
                     @Override
-                    public String getPlatform() { return PlatformConstants.PLATFORM_INFOS.get("freeteknomusic").getSlug(); }
+                    public String getPlatform() { return "freeteknomusic"; }
                     @Override
                     public List<Track> getTracks() { return null; }
                     @Override

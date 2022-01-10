@@ -1,10 +1,9 @@
 package com.kovospace.musicpagesscraper.repositories.platform;
 
-import com.kovospace.musicpagesscraper.interfaces.Platform;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PlatformRepository {
-
-  List<Platform> getAll();
+public  interface PlatformRepository
+        extends JpaRepository<PlatformEntity, Long>
+{
 
 }
