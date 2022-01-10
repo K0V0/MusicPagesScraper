@@ -1,10 +1,12 @@
-package com.kovospace.musicpagesscraper.repositories;
+package com.kovospace.musicpagesscraper.repositories.platform;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.interfaces.Platform;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.kovospace.musicpagesscraper.repositories.platform.PlatformRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

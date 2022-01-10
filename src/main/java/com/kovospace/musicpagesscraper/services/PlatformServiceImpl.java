@@ -2,7 +2,7 @@ package com.kovospace.musicpagesscraper.services;
 
 import com.kovospace.musicpagesscraper.interfaces.Platform;
 import com.kovospace.musicpagesscraper.interfaces.Platforms;
-import com.kovospace.musicpagesscraper.repositories.PlatformRepository;
+import com.kovospace.musicpagesscraper.repositories.platform.PlatformRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

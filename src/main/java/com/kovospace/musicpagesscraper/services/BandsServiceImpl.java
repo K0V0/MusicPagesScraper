@@ -2,10 +2,9 @@ package com.kovospace.musicpagesscraper.services;
 
 import com.kovospace.musicpagesscraper.constants.PlatformConstants;
 import com.kovospace.musicpagesscraper.dtos.PageableCounterDTO;
+import com.kovospace.musicpagesscraper.exceptions.FactoryException;
 import com.kovospace.musicpagesscraper.exceptions.PageException;
-import com.kovospace.musicpagesscraper.exceptions.ScraperException;
-import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundException;
-import com.kovospace.musicpagesscraper.factories.BandsScrapersFactory;
+import com.kovospace.musicpagesscraper.utils.FactoryUtil;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
@@ -19,19 +18,19 @@ import org.springframework.stereotype.Service;
 public  class BandsServiceImpl
         implements BandsService
 {
-  private BandsScrapersFactory factory;
+  private FactoryUtil<BandsScraper> scrapersFactoryUtil;
 
   @Autowired
   public BandsServiceImpl(
-    BandsScrapersFactory factory
+          FactoryUtil<BandsScraper> scrapersFactoryUtil
   ) {
-    this.factory = factory;
+    this.scrapersFactoryUtil = scrapersFactoryUtil;
   }
 
   @Override
   public Bands getBands(String query, String page, String platform)
-  throws PageException, ScraperException {
-    return factory.build(platform).fetch(query, page);
+  throws PageException, FactoryException {
+    return scrapersFactoryUtil.build(platform).fetch(query, page);
   }
 
   @Override
@@ -44,13 +43,13 @@ public  class BandsServiceImpl
 
     for (String scraper : scrapers) {
       try {
-        BandsScraper bandsScraper = factory.build(scraper);
+        BandsScraper bandsScraper = scrapersFactoryUtil.build(scraper);
         bandsScraper.fetch(query, page);
         bands.addAll(bandsScraper.getBands());
         counter.add(bandsScraper);
       } catch (PageException e) {
         // do nothing yet
-      } catch (ScraperException e) {
+      } catch (FactoryException e) {
         // do nothing yet
       }
     }

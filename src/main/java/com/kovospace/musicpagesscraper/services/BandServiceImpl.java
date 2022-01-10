@@ -1,8 +1,9 @@
 package com.kovospace.musicpagesscraper.services;
 
-import com.kovospace.musicpagesscraper.exceptions.ScraperException;
-import com.kovospace.musicpagesscraper.factories.BandScrapersFactory;
+import com.kovospace.musicpagesscraper.exceptions.FactoryException;
+import com.kovospace.musicpagesscraper.utils.FactoryUtil;
 import com.kovospace.musicpagesscraper.interfaces.Band;
+import com.kovospace.musicpagesscraper.scrapers.BandScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +11,17 @@ import org.springframework.stereotype.Service;
 public  class BandServiceImpl
         implements BandService
 {
-  private BandScrapersFactory factory;
+  private FactoryUtil<BandScraper> scrapersFactoryUtil;
 
   @Autowired
   public BandServiceImpl(
-    BandScrapersFactory factory
+          FactoryUtil<BandScraper> scrapersFactoryUtil
   ) {
-    this.factory = factory;
+    this.scrapersFactoryUtil = scrapersFactoryUtil;
   }
 
   @Override
-  public Band getBand(String slug, String platform) throws ScraperException {
-    return factory.build(platform).fetch(slug);
+  public Band getBand(String slug, String platform) throws FactoryException {
+    return scrapersFactoryUtil.build(platform).fetch(slug);
   }
 }
