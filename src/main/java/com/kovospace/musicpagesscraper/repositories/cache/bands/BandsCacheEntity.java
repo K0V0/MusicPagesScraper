@@ -34,4 +34,13 @@ public class BandsCacheEntity {
         this.updateTime = LocalDateTime.now();
     }
 
+    public BandsCacheEntity() {}
+
+    public BandsCacheEntity(String query, String page, String platform, String json) {
+        this.query = query;
+        this.platform = platform;
+        this.page = page;
+        this.json = json;
+    }
+
 }

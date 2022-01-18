@@ -1,8 +1,10 @@
 package com.kovospace.musicpagesscraper.services;
 
+import com.kovospace.musicpagesscraper.cahcers.BandsCacher;
 import com.kovospace.musicpagesscraper.dtos.PageableCounterDTO;
 import com.kovospace.musicpagesscraper.exceptions.FactoryException;
 import com.kovospace.musicpagesscraper.exceptions.PageException;
+import com.kovospace.musicpagesscraper.factories.cachers.BandsCacherFactory;
 import com.kovospace.musicpagesscraper.factories.scrapers.BandsScraperFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
@@ -20,21 +22,30 @@ public  class BandsServiceImpl
         implements BandsService
 {
   private BandsScraperFactory bandsScraperFactory;
+  private BandsCacherFactory bandsCacherFactory;
 
   @Value("#{${platforms}}")
   private Map<String, String> allPlatforms;
 
   @Autowired
   public BandsServiceImpl(
-          BandsScraperFactory bandsScraperFactory
+          BandsScraperFactory bandsScraperFactory,
+          BandsCacherFactory bandsCacherFactory
   ) {
     this.bandsScraperFactory = bandsScraperFactory;
+    this.bandsCacherFactory = bandsCacherFactory;
   }
 
   @Override
   public Bands getBands(String query, String page, String platform)
   throws PageException, FactoryException {
-    return bandsScraperFactory.build(platform).fetch(query, page);
+    Bands bands;
+    if ((bands = bandsCacherFactory.build(platform).fetch(query, page)) != null) {
+      return bands;
+    }
+    bands = bandsScraperFactory.build(platform).fetch(query, page);
+    bandsCacherFactory.build(platform).cache(query, page, bands);
+    return bands;
   }
 
   @Override
