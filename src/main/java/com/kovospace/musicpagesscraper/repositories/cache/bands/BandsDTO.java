@@ -5,16 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public  abstract class BandsDTO
+public  abstract class BandsDTO<PLATFORM_DTO>
         implements Bands {
 
     private int currentPageItemsCount;
     private int pagesCount;
     private int currentPageNum;
     private int totalItemsCount;
+    private List<PLATFORM_DTO> bands;
 
     @Override
     public int getCurrentPageItemsCount() {
@@ -34,5 +37,10 @@ public  abstract class BandsDTO
     @Override
     public int getTotalItemsCount() {
         return totalItemsCount;
+    }
+
+    @Override
+    public List<PLATFORM_DTO> getBands() {
+        return bands;
     }
 }

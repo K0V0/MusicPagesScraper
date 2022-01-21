@@ -15,11 +15,16 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
+
+// TODO add caching times for each platform to settings
+// TODO preimplementovat na single table inheritance, jedna service ako enkoder/dekoder na json z tabulky podla platformy
 
 public  abstract class BandsCacherImpl<DTOTYP>
         implements BandsCacher
 {
+    private static final int CACHE_DAYS = 1;
     private BandsCacheRepository bandsCacheRepository;
     private Gson gson;
     private ModelMapper modelMapper;
@@ -62,11 +67,10 @@ public  abstract class BandsCacherImpl<DTOTYP>
     public Bands fetch(String query, String page) {
             return (Bands) bandsCacheRepository
                     .getFirstByQueryAndPageAndPlatformAndUpdateTimeGreaterThan(query, page, platform,
-                            LocalDateTime.now().minus(1, ChronoUnit.DAYS))
+                            LocalDateTime.now().minus(CACHE_DAYS, ChronoUnit.DAYS))
                     .filter(bandsCacheEntity -> dtoClass != null)
                     .map(bandsCacheEntity -> gson.fromJson(bandsCacheEntity.getJson(), dtoClass))
                     .orElse(null);
-            // TODO delete stare preeexpirovane nacachovane data
     }
 
     @Override
@@ -74,6 +78,12 @@ public  abstract class BandsCacherImpl<DTOTYP>
         BandsCacheEntity bandsCacheEntity = new BandsCacheEntity(
                 query, page, platform, gson.toJson(modelMapper.map(bands, BandzoneBandsDTO.class)));
         bandsCacheRepository.save(bandsCacheEntity);
+        // to overcome need for @Transactional which will break the platform settings from class init
+        List<BandsCacheEntity> toDelete = bandsCacheRepository.getAllByQueryAndPageAndPlatformAndUpdateTimeLessThan(
+                query, page, platform, LocalDateTime.now().minus(CACHE_DAYS, ChronoUnit.DAYS));
+        if (!toDelete.isEmpty()) {
+            bandsCacheRepository.deleteAll(toDelete);
+        }
     }
 
 }
