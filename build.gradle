@@ -27,6 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.modelmapper:modelmapper:2.4.0'
+    runtimeOnly 'com.h2database:h2:1.4.200'
 }
 
 test {
