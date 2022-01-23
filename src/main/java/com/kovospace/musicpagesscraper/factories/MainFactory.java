@@ -5,11 +5,13 @@ import com.kovospace.musicpagesscraper.exceptions.factoryException.NoPlatformExc
 import com.kovospace.musicpagesscraper.exceptions.factoryException.NoServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
-public abstract class Factory<TYP> {
+@Component
+public class MainFactory<TYP> {
 
     private List<TYP> services;
 
@@ -17,7 +19,7 @@ public abstract class Factory<TYP> {
     private Map<String, String> platforms;
 
     @Autowired
-    protected Factory(List<TYP> services) {
+    public MainFactory(List<TYP> services) {
         this.services = services;
     }
 

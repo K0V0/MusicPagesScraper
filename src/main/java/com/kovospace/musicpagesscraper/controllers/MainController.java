@@ -52,6 +52,10 @@ public class MainController {
     return bandsService.getBands(q, p, s);
   }
 
+  /*
+  q - query - band name or id
+  s - platform
+  */
   @GetMapping(value = "/{s}/band", produces = "application/json;charset=utf-8")
   public Band getBand(
     @RequestParam String q,

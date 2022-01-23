@@ -1,4 +1,4 @@
-package com.kovospace.musicpagesscraper.cahcers.bandzone_cz;
+package com.kovospace.musicpagesscraper.cahcers.freeteknomusic_org;
 
 import com.google.gson.Gson;
 import com.kovospace.musicpagesscraper.cahcers.BandCacherImpl;
@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public  class BandzoneBandCacher
+public  class FreeTeknoMusicBandCacher
         extends BandCacherImpl
+
 {
     @Autowired
-    public BandzoneBandCacher(BandCacheRepository bandCacheRepository, Gson gson, ModelMapper modelMapper) {
+    public FreeTeknoMusicBandCacher(
+            BandCacheRepository bandCacheRepository,
+            Gson gson,
+            ModelMapper modelMapper)
+    {
         super(bandCacheRepository, gson, modelMapper);
     }
 }
