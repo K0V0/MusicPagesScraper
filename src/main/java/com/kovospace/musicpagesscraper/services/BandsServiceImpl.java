@@ -21,10 +21,13 @@ public  class BandsServiceImpl
 {
   @Autowired
   protected BandsServiceImpl(
-          MainFactory<BandsScraper> scrapersFactory,
-          MainFactory<BandsCacher> cachersFactory)
+          //MainFactory<BandsScraper> scrapersFactory,
+          //MainFactory<BandsCacher> cachersFactory)
+          List<BandsScraper> scraperServices,
+          List<BandsCacher> cahcerServices)
   {
-    super(scrapersFactory, cachersFactory);
+    super(scraperServices, cahcerServices);
+    //super(scrapersFactory, cachersFactory);
   }
 
   @Override
