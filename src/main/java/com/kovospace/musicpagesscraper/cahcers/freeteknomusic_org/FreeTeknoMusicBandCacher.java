@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public  class FreeTeknoMusicBandCacher
-        extends BandCacherImpl
+        extends BandCacherImpl<FreeTeknoMusicTrackDTO>
 
 {
     @Autowired

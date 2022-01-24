@@ -4,7 +4,6 @@ import com.kovospace.musicpagesscraper.cahcers.BandsCacher;
 import com.kovospace.musicpagesscraper.dtos.PageableCounterDTO;
 import com.kovospace.musicpagesscraper.exceptions.FactoryException;
 import com.kovospace.musicpagesscraper.exceptions.PageException;
-import com.kovospace.musicpagesscraper.factories.MainFactory;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
@@ -21,13 +20,10 @@ public  class BandsServiceImpl
 {
   @Autowired
   protected BandsServiceImpl(
-          //MainFactory<BandsScraper> scrapersFactory,
-          //MainFactory<BandsCacher> cachersFactory)
           List<BandsScraper> scraperServices,
           List<BandsCacher> cahcerServices)
   {
     super(scraperServices, cahcerServices);
-    //super(scrapersFactory, cachersFactory);
   }
 
   @Override
