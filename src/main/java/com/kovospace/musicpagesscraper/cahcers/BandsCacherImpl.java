@@ -39,7 +39,7 @@ public  abstract class BandsCacherImpl<BANDS_DTO>
     @Override
     public void cache(String query, String page, Bands bands) {
         BandsCacheEntity bandsCacheEntity = new BandsCacheEntity(
-                query, page, platform, gson.toJson(modelMapper.map(bands, BandzoneBandsDTO.class)));
+                query, page, platform, gson.toJson(modelMapper.map(bands, DtoClass)));
         cacherRepository.save(bandsCacheEntity);
         // to overcome need for @Transactional which will break the platform settings from class init
         List<BandsCacheEntity> toDelete = cacherRepository.getAllByQueryAndPageAndPlatformAndUpdateTimeLessThan(

@@ -2,13 +2,16 @@ package com.kovospace.musicpagesscraper.cahcers;
 
 import com.google.gson.Gson;
 import com.kovospace.musicpagesscraper.interfaces.Band;
+import com.kovospace.musicpagesscraper.repositories.cache.band.BandCacheEntity;
 import com.kovospace.musicpagesscraper.repositories.cache.band.BandCacheRepository;
 import org.modelmapper.ModelMapper;
 
-import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
-public  abstract class BandCacherImpl<TRACK_DTO>
-        extends MainCacher<BandCacheRepository, TRACK_DTO>
+public  abstract class BandCacherImpl<BAND_DTO>
+        extends MainCacher<BandCacheRepository, BAND_DTO>
         implements BandCacher
 {
     public BandCacherImpl(
@@ -20,12 +23,23 @@ public  abstract class BandCacherImpl<TRACK_DTO>
     }
 
     @Override
-    public Band fetch(String query, String platform) {
-        return null;
+    public Band fetch(String slug) {
+        return (Band) cacherRepository.getFirstByPlatformAndSlugAndUpdateTimeGreaterThan(
+                platform, slug, LocalDateTime.now().minus(CACHE_DAYS, ChronoUnit.DAYS))
+                .map(bandCacheEntity -> gson.fromJson(bandCacheEntity.getJson(), DtoClass))
+                .orElse(null);
     }
 
     @Override
-    public void cache(String query, String platform, Band band) {
-
+    public void cache(String slug, Band band) {
+        BandCacheEntity bandCacheEntity = new BandCacheEntity(
+                slug, platform, gson.toJson(modelMapper.map(band, DtoClass)));
+        cacherRepository.save(bandCacheEntity);
+        // to overcome need for @Transactional which will break the platform settings from class init
+        List<BandCacheEntity> toDelete = cacherRepository.getAllByPlatformAndSlugAndUpdateTimeLessThan(
+                platform, slug, LocalDateTime.now().minus(CACHE_DAYS, ChronoUnit.DAYS));
+        if (!toDelete.isEmpty()) {
+            cacherRepository.deleteAll(toDelete);
+        }
     }
 }

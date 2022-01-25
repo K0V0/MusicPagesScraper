@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public  class BandzoneBandCacher
-        extends BandCacherImpl<BandzoneTrackDTO>
+        extends BandCacherImpl<BandzoneBandDTO>
 {
     @Autowired
     public BandzoneBandCacher(BandCacheRepository bandCacheRepository, Gson gson, ModelMapper modelMapper) {

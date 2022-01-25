@@ -25,6 +25,12 @@ public  class BandServiceImpl
 
   @Override
   public Band getBand(String slug, String platform) throws FactoryException {
-    return getScraper(platform).fetch(slug);
+    Band band;
+    if ((band = getCacher(platform).fetch(slug)) != null) {
+      return band;
+    }
+    band = getScraper(platform).fetch(slug);
+    getCacher(platform).cache(slug, band);
+    return band;
   }
 }

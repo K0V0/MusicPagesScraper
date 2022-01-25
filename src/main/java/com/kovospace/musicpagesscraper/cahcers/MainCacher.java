@@ -38,7 +38,7 @@ public  abstract class MainCacher<CACHER_REPOSITORY, RESPONSE_DTO>
                 .toString();
         this.platform = dtoClassName
                 .substring(dtoClassName.lastIndexOf('.') + 1)
-                .replaceAll("(TrackDTO)*$|(BandsDTO)*$", "")
+                .replaceAll("(BandDTO)*$|(BandsDTO)*$", "")
                 .toLowerCase();
         if (!allPlatforms.containsKey(this.platform)) {
             throw new NoPlatformException();
