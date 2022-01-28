@@ -1,7 +1,5 @@
 package com.kovospace.musicpagesscraper.interfaces.track;
 
-public interface Album {
+public interface AlbumTitle {
     String getAlbumTitle();
-    String getAlbumReleaseYear();
-    String getAlbumLabel();
 }

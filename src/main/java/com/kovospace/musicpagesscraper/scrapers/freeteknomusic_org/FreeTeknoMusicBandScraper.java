@@ -76,8 +76,7 @@ public  class FreeTeknoMusicBandScraper
         return items
             .stream()
             .map(item -> new FreeTeknoMusicTrack() {
-                @Override
-                public String getAlbumTitle() {
+                @Override public String getAlbumTitle() {
                     String album;
                     String part = UrlUtil.decode(item.getHref())
                         .replace(MP3_URL + slug + "/", "");
@@ -89,9 +88,6 @@ public  class FreeTeknoMusicBandScraper
                     }
                     return album;
                 }
-                // TODO prezistit ci by sa nedali ziskat tieto info
-                @Override public String getAlbumReleaseYear() { return null; }
-                @Override public String getAlbumLabel() { return null; }
                 @Override public String getHrefHash() {
                     return MD5Util.hash(item.getHref());
                 }

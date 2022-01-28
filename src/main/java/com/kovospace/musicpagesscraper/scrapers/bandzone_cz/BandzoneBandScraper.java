@@ -134,12 +134,10 @@ public  class BandzoneBandScraper
 
                         tracks.add(new BandzoneTrack() {
                             @Override public String getAlbumTitle() { return album; }
-                            @Override
-                            public String getAlbumReleaseYear() {
+                            @Override public String getAlbumReleaseYear() {
                                 return Optional.ofNullable(trackInfo.getAlbumReleasedYear()).orElse("");
                             }
-                            @Override
-                            public String getAlbumLabel() {
+                            @Override public String getAlbumLabel() {
                                 return Optional.ofNullable(trackInfo.getAlbumLabel()).orElse("");
                             }
                             @Override public String getHrefHash() { return MD5Util.hash(href); }

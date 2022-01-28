@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 @Service
 public class BandzoneTracksExtractorService {
-    // TODO move to .properties file settings
     private static final String BANDZONE_DOWNLOAD_SERVER = "https://bandzone.cz/track/download/";
     private static final Pattern pattern = Pattern.compile("const\\s*loadedPlaylist\\s*=\\s*\\[\\{(.*)\\}\\];");
     private static final Type type = new TypeToken<List<BandzoneJsTracksSourceDTO>>(){}.getType();
