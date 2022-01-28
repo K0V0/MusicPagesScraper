@@ -44,7 +44,7 @@ public  class BandzoneBandsScraper
                     .map(elems -> elems
                             .stream()
                             .anyMatch(elem -> elem.text().trim().equals(NO_BANDS_ELEM_TEXT)))
-                    .orElse(false);
+                    .orElseThrow(PageScrapingException::new);
             if (!noBands) {
                 throw new PageNotFoundException();
             }
