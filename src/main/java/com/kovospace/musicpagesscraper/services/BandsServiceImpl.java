@@ -10,6 +10,8 @@ import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,20 +29,31 @@ public  class BandsServiceImpl
   }
 
   @Override
+  @NotNull
   public Bands getBands(String query, String page, String platform) throws PageException, FactoryException {
     Bands bands;
-    if ((bands = getCacher(platform).fetch(query, page)) != null) {
-      return bands;
+    try {
+      if ((bands = getCacher(platform).fetch(query, page)) != null) {
+        return bands;
+      }
+    } catch (FactoryException e) {
+      // cacher not implemented
+      // TODO logging
     }
     bands = getScraper(platform).fetch(query, page);
-    getCacher(platform).cache(query, page, bands);
+    try {
+      getCacher(platform).cache(query, page, bands);
+    } catch (FactoryException e) {
+      // cacher not implemented
+    }
     return bands;
   }
 
   @Override
+  @NotNull
   public Bands getBands(String query, String page, Optional<List<String>> platforms)
   {
-    List<Band> bands = new ArrayList<>();
+    List<Band> bandsList = new ArrayList<>();
     PageableCounterDTO counter = new PageableCounterDTO();
     counter.setCurrentPageNum(Integer.parseInt(page));
     List<String> platformList = platforms
@@ -48,20 +61,22 @@ public  class BandsServiceImpl
 
     for (String platform : platformList) {
       try {
-        BandsScraper bandsScraper = getScraper(platform);
-        bandsScraper.fetch(query, page);
-        bands.addAll((List<Band>) bandsScraper.getBands());
-        counter.add(bandsScraper);
+        Bands bandsOfPlatform = getBands(query, page, platform);
+        bandsList.addAll((List<Band>) bandsOfPlatform.getBands());
+        counter.add(bandsOfPlatform);
       } catch (PageException e) {
-        // do nothing yet
+        // do nothing - just no data from given platform
+        continue;
       } catch (FactoryException e) {
-        //
+        // do nothing - just no data from given platform
+        // TODO logging
+        continue;
       }
     }
 
     return new Bands()
     {
-      @Override public List<Band> getBands() { return bands; }
+      @Override public List<Band> getBands() { return bandsList; }
       @Override public int getCurrentPageItemsCount() { return counter.getCurrentPageItemsCount(); }
       @Override public int getPagesCount() { return counter.getPagesCount(); }
       @Override public int getCurrentPageNum() { return counter.getCurrentPageNum(); }
