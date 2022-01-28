@@ -50,7 +50,9 @@ public  class BandzoneBandsScraper
             }
         } else {
             bandContainers = bandsContainer.getElementsByClass("profileLink"); // can be NULL
-            paginator = document.getElementsByClass("paginator").first();
+            paginator = Optional.ofNullable(document.getElementsByClass("paginator"))
+                    .map(Elements::first)
+                    .orElse(null);
         }
     }
 
