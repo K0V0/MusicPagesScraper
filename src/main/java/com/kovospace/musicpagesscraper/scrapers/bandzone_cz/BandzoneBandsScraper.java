@@ -1,7 +1,6 @@
 package com.kovospace.musicpagesscraper.scrapers.bandzone_cz;
 
 import com.kovospace.musicpagesscraper.exceptions.PageException;
-import com.kovospace.musicpagesscraper.exceptions.pageException.PageNotFoundException;
 import com.kovospace.musicpagesscraper.exceptions.pageException.PageScrapingException;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Track;
@@ -35,25 +34,29 @@ public  class BandzoneBandsScraper
 
     @Override
     public void init() throws PageException {
-        section = Optional.ofNullable(document.getElementById("bandSearch"))
+        section = Optional
+                .ofNullable(document.getElementById("bandSearch"))
                 .orElseThrow(PageScrapingException::new);
-        bandsContainer = document.getElementById("searchResults");
+        bandsContainer = section.getElementById("searchResults");
         if (bandsContainer == null) {
-            boolean noBands = Optional
+            boolean hasNoBandsWarning = Optional
                     .ofNullable(section.getElementsByClass("help"))
                     .map(elems -> elems
                             .stream()
                             .anyMatch(elem -> elem.text().trim().equals(NO_BANDS_ELEM_TEXT)))
-                    .orElseThrow(PageScrapingException::new);
-            if (!noBands) {
-                throw new PageNotFoundException();
+                    .orElse(false);
+            if (!hasNoBandsWarning) {
+                throw new PageScrapingException();
             }
-        } else {
-            bandContainers = bandsContainer.getElementsByClass("profileLink"); // can be NULL
-            paginator = Optional.ofNullable(document.getElementsByClass("paginator"))
-                    .map(Elements::first)
-                    .orElse(null);
         }
+        bandContainers = Optional
+                .ofNullable(bandsContainer)
+                .map(bcs -> bcs.getElementsByClass("profileLink"))
+                .orElse(null);
+        paginator = Optional
+                .ofNullable(document.getElementsByClass("paginator"))
+                .map(Elements::first)
+                .orElse(null);
     }
 
     @Override
@@ -139,4 +142,5 @@ public  class BandzoneBandsScraper
         // Bandzone.cz behavior fix - when querying page that is out of range, random bands are returned.
         return currentPageNum > getPagesCount();
     }
+
 }

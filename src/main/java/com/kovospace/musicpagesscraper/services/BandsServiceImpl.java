@@ -10,8 +10,6 @@ import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +27,6 @@ public  class BandsServiceImpl
   }
 
   @Override
-  @NotNull
   public Bands getBands(String query, String page, String platform) throws PageException, FactoryException {
     Bands bands;
     try {
@@ -46,11 +43,11 @@ public  class BandsServiceImpl
     } catch (FactoryException e) {
       // cacher not implemented
     }
+    //Logger.getAnonymousLogger().log(Level.ALL, "bands");
     return bands;
   }
 
   @Override
-  @NotNull
   public Bands getBands(String query, String page, Optional<List<String>> platforms)
   {
     List<Band> bandsList = new ArrayList<>();
