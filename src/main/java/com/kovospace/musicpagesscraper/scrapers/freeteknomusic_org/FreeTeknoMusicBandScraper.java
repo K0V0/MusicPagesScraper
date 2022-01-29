@@ -92,7 +92,7 @@ public  class FreeTeknoMusicBandScraper
                 @Override public String getHref() {
                     return item.getHref();
                 }
-                @Override public String getSlug() {
+                @Override public String getSlugRef() {
                     return item.getSlug();
                 }
             })

@@ -25,7 +25,44 @@ or [http://kovo.space:4000/](http://kovo.space:4000/)
 ## Usage
 
 ### Request
-Requests are always performed using ``GET`` HTTP method to given resource.
+Requests are always performed using ``GET`` HTTP method to given resource. In table below is the list of servers to reach API.
+
+| Server address | Port |
+| --------------- |------|
+| http://172.104.155.216 | 4000 |
+| http://kovo.space | 4000 |
+
+### Request endpoints  
+
+#### Query list of bands
+
+```
+[GET] <SERVER_ADDRESS:PORT>/<PLATFORM>/bands?q=<BAND_NAME>&p=<PAGE_NUMBER>
+```
+| Parameter   | Type     | Defaults if optional param omited                    |
+|-------------|----------|------------------------------------------------------|
+| PLATFORM    | required | -                                                    | 
+| BAND_NAME   | optional | displays list of bands based on provider preferences |     
+| PAGE_NUMBER | optional | first page                                           |
+
+```
+[GET] <SERVER_ADDRESS:PORT>/bands?q=<BAND_NAME>&p=<PAGE_NUMBER>&s=<PLATFORM_1>&s=<PLATFORM_2>...&s=<PLATFORM_N>
+```
+| Parameter   | Type     | Defaults if optional param omited                    |
+| --- |----------|------------------------------------------------------ |
+| BAND_NAME   | optional | displays list of bands based on provider preferences  |     
+| PAGE_NUMBER | optional | first page                                            |
+| PLATFORM    | optional | all supported platforms will be searched              | 
+
+#### Query band profile
+
+```
+[GET] <SERVER_ADDRESS:PORT>/<PLATFORM>/band?q=<SLUG>
+```
+| Parameter | Type     | Note                                                                                 |
+|-----------|----------|--------------------------------------------------------------------------------------|
+| PLATFORM  | required | -                                                                                    |     
+| SLUG      | required | Unique identifier of band obtained from bands list, see ***Response*** section below | 
 
 ### Response
 
@@ -33,7 +70,7 @@ Responses comes as standart ``JSON`` string with corresponding ``HTTP`` code. In
 (required) return parameters which should be returned from every platform for given scenario.  
 Optional parameters for each platform will be listed below.
 
-#### List of bands query:
+#### Response of query for bands list:
 ```
 {
     currentPageItemsCount: <NUMBER>,
@@ -53,122 +90,62 @@ Optional parameters for each platform will be listed below.
     ]
 }
 ```
-| Parameter             | Type | Meaning / Note                                                                                |
-|-----------------------|------|-----------------------------------------------------------------------------------------------|
-| currentPageItemsCount | Number | Number of items listed on current set                                                         |
-| pagesCount            | Number | Total number of sets                                                                          |
-| currentPageNum        | Number | Number of current set, numbering starts with 1 and value is 1 even if no results are returned |
-| totalItemsCount       | Number | Sum of all items in all sets                                                                  |
-| bands                 | Array | *Only one occurence*                                                                          |
-| tracks                | Array | *NULL by default*                                                                             |
-| platform              | Text | Platform which record comes from                                                              |
-| title                 | Text | Title of item                                                                                 |
-| href | Text | URL of given resource, no special meaning                                                     |
-| slug | Text | Unique identificator for given resource |
-### GET /{platform_slug}/bands?q={band_title}&p={page_number}
+| Parameter             | Type | Meaning                                                                           | Note                                                                 |
+|-----------------------|------|-----------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| currentPageItemsCount | Number | Number of bands listed on current set                                             |                                                                      |
+| pagesCount            | Number | Total number of sets                      | 1 even if no bands found and empty set returned                      |
+| currentPageNum        | Number | Number of current set | Numbering starts with 1 and value is 1 even if no bands are returned |
+| totalItemsCount       | Number | Count of all bands in all sets                                                    |                                                                      |
+| bands                 | Array | Array holding set of Bands,                                   | Only one occurence                                                   |
+| tracks                | Array | Array holding tracks of given band                         | EMPTY in this query                                                  |
+| platform              | Text | Platform which band comes from                                                    |                                                                      |
+| title                 | Text | Name of band                                                                      |                                                                      |
+| slug | Text | Unique identificator for given band                                               |                                                                      |
 
-Performs bands search on one given platform 
+#### List of extra parameters for band objects in bands list for given platform:
 
-### Request
+| Platform | Parameter | Type | Meaning                                | Note                                             |
+|-------|-----------| --- |----------------------------------------|--------------------------------------------------|
+| bandzone | imageUrl  | Text | Avatar image of given band             | Various sizes and quality, dependent on provider |
+|       | genre     | Text | Music genre                            |                                                  |
+|       | city      | Text | City where band comes from / have base |                                                  |
 
-| Parameter | Type     | Defaults for optional params                    |
-| --- |----------|-------------------------------------------------|
-| platform_slug | required | - | 
-| band_title | optional | displays list of bands based on provider settings |     
-| page_number | optional | first page |
-
-example:
-```
-http://172.104.155.216:4000/bandzone/bands?q=wild&page=2
-```
-
-### Response
+#### Response of query for band profile:
 ```
 {
-	bands: [
-		{
-			title: "Wilderness",
-			imageUrl: "https://bzmedia.cz/band/wi/wilderness/gallery/profile.default/239095_t_s.jpg",
-			href: "https://bandzone.cz/wilderness",
-			slug: "wilderness",
-			genre: "power-metal",
-			city: "Vsetín",
-			tracks: [ ]
-		},
-		{
-			title: "The Wilderness",
-			imageUrl: "https://bzmedia.cz/band/a6/58/5319/e1/ad/8d4e/NymabjkJbmiHMEBCkjay658emY_CCFGu.jpg",
-			href: "https://bandzone.cz/thewildernesstt",
-			slug: "thewildernesstt",
-			genre: "punk",
-			city: "Trnava",
-			tracks: [ ]
-		}
-	],
-	currentPageItemsCount: 2,
-	pagesCount: 1,
-	currentPageNum: 1,
-	totalItemsCount: 2
-}
-
-```
-
-### Get band profile
-
-GET request to:
-
-```
-http(s)://<VPS_ADDRESS>/<PLATFORM_SLUG>/band?q=<BAND_SLUG_OR_ID>
-```
-* required unique parameter **BAND_SLUG_OR_ID**  
-
-Source of data : [https://bandzone.cz/<BAND_SLUG_OR_ID>](https://bandzone.cz/thewildernesstt)
-
-#### Example
-
-You want to listen to "The Wilderness", this one:
-
-```
-...
-	{
-		"title": "The Wilderness",
-		...
-		"slug": "thewildernesstt",
-		...
-	}
-...
-```
-
-request:
-
-```
-http://172.104.155.216:4000/bandzone/band?q=thewildernesstt
-```
-
-output:
-
-```
-{
-	title: "The Wilderness ",
-	imageUrl: "https://bzmedia.cz/band/a6/58/5319/e1/ad/8d4e/t_oOTGdVm_aXe0tC121kSp2ko_ZtrMCI.jpg",
-	href: "https://bandzone.cz/thewildernesstt",
-	slug: "thewildernesstt",
-	genre: "punk",
-	city: "Trnava",
-	tracks: [
-		{
-			fullTitle: "Načo pojdem domov- Singel 2017 (2017)",
-			title: "Načo pojdem domov",
-			album: "Singel 2017 (2017)",
-			playsCount: "3710",
-			href: "https://bandzone.cz/track/download/697871",
-			hrefHash: "28400c3aadef688166a927180e68718e",
-			duration: "12:42"
-		},
-	...
-	]
+    "slug": <STRING>,
+    "platform": <STRING>,
+    "title": <STRING>,
+    "tracks": [
+        {
+            "title": <STRING>,
+            "slugRef": <STRING>,
+            "href": <STRING>,
+            "hrefHash": <STRING>,
+            ...
+        },
+        ...
+    ]
 }
 ```
+| Parameter | Type | Meaning                                   | Note |
+|----------|------|-------------------------------------------|------| 
+| slug     | Text | Unique identificator for given band       |      |
+| platform | Text | Platform which band comes from            |      | 
+| title    | Text | Name of band                              |      | 
+| tracks   | Array | Array holding tracks of given band        | if band have no tracks, then EMPTY  |
+| title    | Text | Name of track                             |      | 
+| slugRef  | Text | Reference to unique identificator of band |      | 
+| href     | Text | Link to song                              |      | 
+| hrefHash | Text | MD5 sum of song's link                    |      | 
+
+#### List of extra parameters for track objects in track list for given band:
+
+| Platform | Parameter        | Type | Meaning                                                     | Note                |
+|-------|------------------| --- |-------------------------------------------------------------|---------------------|
+| bandzone | albumReleaseYear | Text | Year of album release of given track   | Can be empty string |
+|       | albumLabel       | Text | Label/recording studio which released album | Can be empty string                    |
+|       | albumTitle       | Text | Title of album |     Can be empty string                | 
 
 ## Development.log
 
@@ -184,3 +161,4 @@ output:
 | 09.jul.2021 | exception handling, bandzone no bands bug resolved |
 | 08.jan.2022 | fix due to changes in bandzone webpage |
 | 09.jan.2022 | refactor of some concepts of app, null pointer safety precautions |
+| 29.jan.2022 | documentation |

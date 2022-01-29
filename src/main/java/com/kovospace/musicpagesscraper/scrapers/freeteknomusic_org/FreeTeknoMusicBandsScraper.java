@@ -87,14 +87,12 @@ public  class FreeTeknoMusicBandsScraper
                     @Override
                     public String getTitle() { return item.getTitle(); }
                     @Override
-                    public String getHref() { return item.getHref(); }
-                    @Override
                     public String getSlug() { return item.getSlug(); }
                 })
                 .collect(Collectors.toList());
             return bands;
         }
-        return new ArrayList<FreeTeknoMusicBand>();
+        return new ArrayList<>();
     }
 
 }

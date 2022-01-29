@@ -6,5 +6,6 @@ public  interface Band
         extends ScraperItem
 {
     String getPlatform();
+    String getSlug();
     List<?> getTracks();
 }

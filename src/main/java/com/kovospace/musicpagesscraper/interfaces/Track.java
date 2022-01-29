@@ -6,4 +6,5 @@ public  interface Track
         extends ScraperItem, Href
 {
     String getHrefHash();
+    String getSlugRef();
 }

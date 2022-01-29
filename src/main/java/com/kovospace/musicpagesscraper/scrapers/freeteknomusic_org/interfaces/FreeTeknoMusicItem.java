@@ -6,5 +6,5 @@ import com.kovospace.musicpagesscraper.interfaces.track.Href;
 public  interface FreeTeknoMusicItem
         extends ScraperItem, Href
 {
-
+    String getSlug();
 }

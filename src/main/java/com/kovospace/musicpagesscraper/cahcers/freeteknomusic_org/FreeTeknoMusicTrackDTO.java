@@ -16,6 +16,4 @@ public  class FreeTeknoMusicTrackDTO
         implements FreeTeknoMusicTrack
 {
     private String albumTitle;
-    private String albumReleaseYear;
-    private String albumLabel;
 }

@@ -15,6 +15,6 @@ public  abstract class TrackDTO
 {
     private String title;
     private String href;
-    private String slug;
+    private String slugRef;
     private String hrefHash;
 }

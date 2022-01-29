@@ -21,6 +21,7 @@ public  class BandzoneBandScraper
         implements BandzoneBand
 {
     private static final String BANDZONE_DOWNLOAD_SERVER = "https://bandzone.cz/track/download/";
+    private static final String NO_ALBUM_KNOWN = "Nezařazeno";
 
     private Element tracksListElement;
     private Element profileElement;
@@ -128,7 +129,13 @@ public  class BandzoneBandScraper
                         String href = String.format("%s%s", BANDZONE_DOWNLOAD_SERVER, trackInfo.getTrackId());
 
                         tracks.add(new BandzoneTrack() {
-                            @Override public String getAlbumTitle() { return album; }
+                            @Override public String getAlbumTitle() {
+                                // TODO odpozorovať či vždy tracky bez zaradenia do albumu naozaj vracajú jeden rovnaký text
+                                if (album.equalsIgnoreCase(NO_ALBUM_KNOWN)) {
+                                   return "";
+                                }
+                                return album;
+                            }
                             @Override public String getAlbumReleaseYear() {
                                 return Optional.ofNullable(trackInfo.getAlbumReleasedYear()).orElse("");
                             }
@@ -136,10 +143,9 @@ public  class BandzoneBandScraper
                                 return Optional.ofNullable(trackInfo.getAlbumLabel()).orElse("");
                             }
                             @Override public String getHrefHash() { return MD5Util.hash(href); }
+                            @Override public String getSlugRef() { return slug; }
                             @Override public String getTitle() { return title; }
                             @Override public String getHref() { return href; }
-                            // TODO rename to bandId across whole app
-                            @Override public String getSlug() { return slug; }
                         });
                     });
                 });
