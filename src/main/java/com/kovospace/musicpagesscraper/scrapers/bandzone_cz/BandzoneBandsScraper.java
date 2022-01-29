@@ -121,12 +121,6 @@ public  class BandzoneBandsScraper
                         }
 
                         @Override
-                        public String getHref() {
-                            return "https://bandzone.cz" + bandContainer.getElementsByTag("a").first()
-                                    .attr("href");
-                        }
-
-                        @Override
                         public String getSlug() {
                             return bandContainer.getElementsByTag("a").first().attr("href")
                                     .replace("/", "");

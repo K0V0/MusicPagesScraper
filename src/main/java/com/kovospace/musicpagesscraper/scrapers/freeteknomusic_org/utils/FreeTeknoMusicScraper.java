@@ -1,7 +1,7 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils;
 
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicItem;
 import com.kovospace.musicpagesscraper.utils.UrlUtil;
-import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -29,8 +29,8 @@ public class FreeTeknoMusicScraper {
         this.excludePattern = pattern;
     }
 
-    public List<ScraperItem> scrape(String url) {
-        List<ScraperItem> results = new ArrayList<>();
+    public List<FreeTeknoMusicItem> scrape(String url) {
+        List<FreeTeknoMusicItem> results = new ArrayList<>();
         Document document;
         try {
             document = Jsoup.connect(url).get();
@@ -38,8 +38,8 @@ public class FreeTeknoMusicScraper {
             if (results.size() > 0) {
                 results.remove(0); // folder up, otherwise infinite loop
             }
-            List<ScraperItem> results2 = new ArrayList<>();
-            for (ScraperItem result : results) {
+            List<FreeTeknoMusicItem> results2 = new ArrayList<>();
+            for (FreeTeknoMusicItem result : results) {
                 if (!mp3filePattern.matcher(result.getHref()).find()) {
                     matcher = directoryPatternFix.matcher(result.getHref());
                     if (matcher.find()) {
@@ -57,8 +57,8 @@ public class FreeTeknoMusicScraper {
     }
 
     // OMG WHYYYYY can I do "new ScraperItem() {...}" which is ABSTRACT class
-    public List<ScraperItem> scrape(Document document, String search, String url) {
-        List<ScraperItem> result = new ArrayList<>();
+    public List<FreeTeknoMusicItem> scrape(Document document, String search, String url) {
+        List<FreeTeknoMusicItem> result = new ArrayList<>();
 
         Element element = document
             .getElementById("main")
@@ -71,7 +71,7 @@ public class FreeTeknoMusicScraper {
                 .getElementsByTag("a")
                 .stream()
                 .filter(elem -> !excludePattern.matcher(elem.attr("href")).find())
-                .map(elem -> new ScraperItem() {
+                .map(elem -> new FreeTeknoMusicItem() {
                     @Override
                     public String getTitle() {
                         return elem.text();

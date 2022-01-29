@@ -1,10 +1,10 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicItem;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicTrack;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import com.kovospace.musicpagesscraper.utils.MD5Util;
 import com.kovospace.musicpagesscraper.utils.UrlUtil;
-import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public  class FreeTeknoMusicBandScraper
     private static final String MP3_URL = "http://freeteknomusic.org/mp3/" ;
     private static final Pattern albumPattern = Pattern.compile("([^\\/]+)\\/[^\\/]+\\.mp3$");
     private String slug;
-    private List<ScraperItem> items;
+    private List<FreeTeknoMusicItem> items;
 
     @Autowired
     private FreeTeknoMusicScraper scraper;
@@ -59,11 +59,6 @@ public  class FreeTeknoMusicBandScraper
     @Override
     public String getTitle() {
         return slug;
-    }
-
-    @Override
-    public String getHref() {
-        return URL + slug;
     }
 
     @Override

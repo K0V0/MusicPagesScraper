@@ -1,10 +1,9 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
-import com.kovospace.musicpagesscraper.interfaces.Band;
-import com.kovospace.musicpagesscraper.interfaces.ScraperItem;
 import com.kovospace.musicpagesscraper.interfaces.Track;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraperImpl;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicBand;
+import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicItem;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ public  class FreeTeknoMusicBandsScraper
     private static final String URL = "http://archive.freeteknomusic.org/";
     private String searchedBand;
     private int pageNum;
-    private List<ScraperItem> allBands;
-    private List<Band> bands;
+    private List<FreeTeknoMusicItem> allBands;
+    private List<FreeTeknoMusicBand> bands;
 
     @Autowired
     private FreeTeknoMusicScraper scraper;
@@ -68,7 +67,7 @@ public  class FreeTeknoMusicBandsScraper
     }
 
     @Override
-    public List<Band> getBands() {
+    public List<FreeTeknoMusicBand> getBands() {
         if (this.pageNum <= getPagesCount()) {
             int start = (pageNum - 1) * ITEMS_PER_PAGE;
             int end;
@@ -95,7 +94,7 @@ public  class FreeTeknoMusicBandsScraper
                 .collect(Collectors.toList());
             return bands;
         }
-        return new ArrayList<Band>();
+        return new ArrayList<FreeTeknoMusicBand>();
     }
 
 }

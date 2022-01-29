@@ -83,11 +83,6 @@ public  class BandzoneBandScraper
     }
 
     @Override
-    public String getHref() {
-        return requestUrl(slug);
-    }
-
-    @Override
     public String getSlug() {
         return this.slug;
     }
