@@ -1,44 +1,88 @@
 # MusicPagesScraper
 
-**MusicPagesScraper** is rewrite of [BandzoneScraper](https://github.com/K0V0/BandzoneScraper) into Java & Spring Boot with intention 
-to rebuild it as universal and modular easy extensible API for scraping multiple pages into single JSON data format.
+**MusicPagesScraper** is rewrite of [BandzoneScraper](https://github.com/K0V0/BandzoneScraper) 
+into Java & Spring Boot with intention to make universal and easy extensible REST API for scraping content from webpages
+and extracting useful data.
+
 
 
 ## Functions
 
-Current version supporting querying list of bands and querying band profile with tracks.  
-Virtual server runs on [http://172.104.155.216:4000/](http://172.104.155.216:4000/) or [http://kovo.space:4000/](http://kovo.space:4000/)  
+Current version supports performing search and querying list of ***bands*** and it's ***band profile**s* with tracks.  
+API performs database caching of results for some given time to dramatically increase speed and reduce processing power 
+cost and bandwidth.  
+Java version 8 or later and Spring Boot framework is required to compile.  
+Live application runs on [http://172.104.155.216:4000/](http://172.104.155.216:4000/) 
+or [http://kovo.space:4000/](http://kovo.space:4000/)  
 
-### Supported platforms list
+## Supported platforms list
 
 | Platform (site) | Slug |
 | --------------- | ---- |
 | Bandzone.cz | bandzone |
 | FreeTeknoMusic.org | freeteknomusic |
 
+## Usage
 
-### Search bands by name, query bands list (paginated, full search)  
+### Request
+Requests are always performed using ``GET`` HTTP method to given resource.
 
-GET request to:
+### Response
 
+Responses comes as standart ``JSON`` string with corresponding ``HTTP`` code. In following examples are listed basic 
+(required) return parameters which should be returned from every platform for given scenario.  
+Optional parameters for each platform will be listed below.
+
+#### List of bands query:
 ```
-http(s)://<VPS_ADDRESS>/<PLATFORM_SLUG>/bands?q=<SEARCHED_BAND>&p=<PAGE_NUMBER>
+{
+    currentPageItemsCount: <NUMBER>,
+    pagesCount: <NUMBER>,
+    currentPageNum: <NUMBER>,
+    totalItemsCount: <NUMBER>,
+    bands: [
+        {
+            tracks: <NULL>,
+            platform: <STRING>,
+            title: <STRING>,
+            href: <STRING>,
+            slug: <STRING>
+            ...
+        },
+        ...
+    ]
+}
 ```
-* optional parameter **SEARCHED_BAND**  
-* optional parameter **PAGE_NUMBER**  
+| Parameter             | Type | Meaning / Note                                                                                |
+|-----------------------|------|-----------------------------------------------------------------------------------------------|
+| currentPageItemsCount | Number | Number of items listed on current set                                                         |
+| pagesCount            | Number | Total number of sets                                                                          |
+| currentPageNum        | Number | Number of current set, numbering starts with 1 and value is 1 even if no results are returned |
+| totalItemsCount       | Number | Sum of all items in all sets                                                                  |
+| bands                 | Array | *Only one occurence*                                                                          |
+| tracks                | Array | *NULL by default*                                                                             |
+| platform              | Text | Platform which record comes from                                                              |
+| title                 | Text | Title of item                                                                                 |
+| href | Text | URL of given resource, no special meaning                                                     |
+| slug | Text | Unique identificator for given resource |
+### GET /{platform_slug}/bands?q={band_title}&p={page_number}
 
-Source of data: [https://bandzone.cz/kapely.html?q=<SEARCHED_BAND>&p=<PAGE_NUMBER>](https://bandzone.cz/kapely.html)
+Performs bands search on one given platform 
 
-#### Example
+### Request
 
-request:
+| Parameter | Type     | Defaults for optional params                    |
+| --- |----------|-------------------------------------------------|
+| platform_slug | required | - | 
+| band_title | optional | displays list of bands based on provider settings |     
+| page_number | optional | first page |
 
+example:
 ```
-http://172.104.155.216:4000/bandzone/bands?q=wilderness
+http://172.104.155.216:4000/bandzone/bands?q=wild&page=2
 ```
 
-output:
-
+### Response
 ```
 {
 	bands: [
