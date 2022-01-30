@@ -7,11 +7,12 @@ import com.kovospace.musicpagesscraper.exceptions.PageException;
 import com.kovospace.musicpagesscraper.interfaces.Band;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.scrapers.BandsScraper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public  class BandsServiceImpl
@@ -27,7 +28,7 @@ public  class BandsServiceImpl
   }
 
   @Override
-  public Bands getBands(String query, String page, String platform) throws PageException, FactoryException {
+  public Bands getBands(String query, int page, String platform) throws PageException, FactoryException {
     Bands bands;
     try {
       if ((bands = getCacher(platform).fetch(query, page)) != null) {
@@ -48,11 +49,11 @@ public  class BandsServiceImpl
   }
 
   @Override
-  public Bands getBands(String query, String page, Optional<List<String>> platforms)
+  public Bands getBands(String query, int page, Optional<List<String>> platforms)
   {
     List<Band> bandsList = new ArrayList<>();
     PageableCounterDTO counter = new PageableCounterDTO();
-    counter.setCurrentPageNum(Integer.parseInt(page));
+    counter.setCurrentPageNum(page);
     List<String> platformList = platforms
             .orElseGet(() -> new ArrayList<>(allPlatforms.keySet()));
 

@@ -7,6 +7,7 @@ import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.Fr
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -33,9 +34,9 @@ public  class FreeTeknoMusicBandsScraper
     }
 
     @Override
-    public String requestUrl(String searchedBand, String pageNum) {
+    public String requestUrl(String searchedBand, int pageNum) {
         this.searchedBand = searchedBand;
-        this.pageNum = Integer.parseInt(pageNum);
+        this.pageNum = pageNum;
         return URL;
     }
 

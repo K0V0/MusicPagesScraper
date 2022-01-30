@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface BandsService {
 
   @NotNull
-  Bands getBands(String query, String page, String platform)
+  Bands getBands(String query, int page, String platform)
       throws PageException, FactoryException;
 
   @NotNull
-  Bands getBands(String query, String page, Optional<List<String>> platfroms);
+  Bands getBands(String query, int page, Optional<List<String>> platfroms);
 
 }

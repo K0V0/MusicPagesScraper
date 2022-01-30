@@ -9,6 +9,7 @@ import com.kovospace.musicpagesscraper.scrapers.bandzone_cz.interfaces.BandzoneB
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,8 @@ public  class BandzoneBandsScraper
     public BandzoneBandsScraper() { super(); }
 
     @Override
-    public String requestUrl(String searchedBand, String pageNum) {
-        this.currentPageNum = Integer.parseInt(pageNum);
+    public String requestUrl(String searchedBand, int pageNum) {
+        this.currentPageNum = pageNum;
         return String.format("https://bandzone.cz/kapely.html?q=%s&p=%s", searchedBand, pageNum);
     }
 

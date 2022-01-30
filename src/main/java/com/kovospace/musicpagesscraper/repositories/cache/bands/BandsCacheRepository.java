@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface BandsCacheRepository extends JpaRepository<BandsCacheEntity, Long> {
 
     Optional<BandsCacheEntity> getFirstByQueryAndPageAndPlatformAndUpdateTimeGreaterThan(
-            String query, String page, String platform, LocalDateTime time);
+            String query, int page, String platform, LocalDateTime time);
 
     List<BandsCacheEntity> getAllByQueryAndPageAndPlatformAndUpdateTimeLessThan(
-            String query, String page, String platform, LocalDateTime time);
+            String query, int page, String platform, LocalDateTime time);
 }

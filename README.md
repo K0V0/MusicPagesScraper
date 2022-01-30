@@ -17,10 +17,10 @@ or [http://kovo.space:4000/](http://kovo.space:4000/)
 
 ## Supported platforms list
 
-| Platform (site) | Slug |
-| --------------- | ---- |
-| Bandzone.cz | bandzone |
-| FreeTeknoMusic.org | freeteknomusic |
+| Platform (site)    | Slug | Description                                                                                                                                                               |
+|--------------------| ---- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Bandzone.cz        | bandzone | Contains mainly garage and underground bands from Czech Republic and Slovakia. Most of them are punk, rock and metal.                                                     |
+| FreeTeknoMusic.org | freeteknomusic | Tekno, tribecore, drum&bass, hardcore techno and harder underground electronic music in general. Warehouse of music from the environment of soundsystems and DIY culture. |
 
 ## Usage
 

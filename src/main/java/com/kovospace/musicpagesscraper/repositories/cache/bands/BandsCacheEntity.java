@@ -21,7 +21,7 @@ public class BandsCacheEntity {
     private Long id;
 
     private String query;
-    private String page;
+    private int page;
     private String platform;
 
     @Lob
@@ -36,7 +36,7 @@ public class BandsCacheEntity {
 
     public BandsCacheEntity() {}
 
-    public BandsCacheEntity(String query, String page, String platform, String json) {
+    public BandsCacheEntity(String query, int page, String platform, String json) {
         this.query = query;
         this.platform = platform;
         this.page = page;

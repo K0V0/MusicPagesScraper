@@ -8,12 +8,14 @@ import com.kovospace.musicpagesscraper.interfaces.Platforms;
 import com.kovospace.musicpagesscraper.services.BandService;
 import com.kovospace.musicpagesscraper.services.BandsService;
 import com.kovospace.musicpagesscraper.services.PlatformService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-// TODO validacie parametrov
 
 @RestController
 public class MainController {
@@ -36,7 +38,7 @@ public class MainController {
   @GetMapping(value = "/{s}/bands", produces = "application/json;charset=utf-8")
   public Bands getBands(
     @RequestParam(defaultValue = "") String q,
-    @RequestParam(defaultValue = "1") String p,
+    @RequestParam(defaultValue = "1") int p,
     @PathVariable String s
   )
   throws PageException, FactoryException {
@@ -45,10 +47,9 @@ public class MainController {
 
   @GetMapping(value = "/bands", produces = "application/json;charset=utf-8")
   // foo=value1&foo=value2&foo=value3
-  // dat do String[]
   public Bands getBands(
     @RequestParam(defaultValue = "") String q,
-    @RequestParam(defaultValue = "1") String p,
+    @RequestParam(defaultValue = "1") int p,
     @RequestParam(required = false) Optional<List<String>> s // which pages to scrape none = all supported
   ) {
     return bandsService.getBands(q, p, s);
@@ -68,7 +69,7 @@ public class MainController {
 
   @GetMapping(value = "/platforms", produces = "application/json;charset=utf-8")
   public Platforms getPlatforms(
-    @RequestParam(defaultValue = "1", required = false) String p
+    @RequestParam(defaultValue = "1", required = false) int p
   ) {
     return platformService.getAll();
   }

@@ -1,7 +1,6 @@
 package com.kovospace.musicpagesscraper.cahcers;
 
 import com.google.gson.Gson;
-import com.kovospace.musicpagesscraper.cahcers.bandzone_cz.BandzoneBandsDTO;
 import com.kovospace.musicpagesscraper.interfaces.Bands;
 import com.kovospace.musicpagesscraper.repositories.cache.bands.BandsCacheEntity;
 import com.kovospace.musicpagesscraper.repositories.cache.bands.BandsCacheRepository;
@@ -27,7 +26,7 @@ public  abstract class BandsCacherImpl<BANDS_DTO>
     }
 
     @Override
-    public Bands fetch(String query, String page) {
+    public Bands fetch(String query, int page) {
             return (Bands) cacherRepository
                     .getFirstByQueryAndPageAndPlatformAndUpdateTimeGreaterThan(query, page, platform,
                             LocalDateTime.now().minus(CACHE_DAYS, ChronoUnit.DAYS))
@@ -37,7 +36,7 @@ public  abstract class BandsCacherImpl<BANDS_DTO>
     }
 
     @Override
-    public void cache(String query, String page, Bands bands) {
+    public void cache(String query, int page, Bands bands) {
         BandsCacheEntity bandsCacheEntity = new BandsCacheEntity(
                 query, page, platform, gson.toJson(modelMapper.map(bands, DtoClass)));
         cacherRepository.save(bandsCacheEntity);

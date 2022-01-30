@@ -7,7 +7,7 @@ public abstract class BandsScraperImpl
                 extends MainScraper
                 implements BandsScraper
 {
-    public Bands fetch(String searchedBand, String pageNum)
+    public Bands fetch(String searchedBand, int pageNum)
     throws PageException
     {
       getDocument( requestUrl(searchedBand, pageNum) ); // requestUrl() filled in subclasses

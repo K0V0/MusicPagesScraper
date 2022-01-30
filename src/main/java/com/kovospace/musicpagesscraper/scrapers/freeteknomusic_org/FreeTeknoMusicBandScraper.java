@@ -1,14 +1,15 @@
 package com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org;
 
+import com.kovospace.musicpagesscraper.interfaces.Track;
+import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicItem;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.interfaces.FreeTeknoMusicTrack;
 import com.kovospace.musicpagesscraper.scrapers.freeteknomusic_org.utils.FreeTeknoMusicScraper;
 import com.kovospace.musicpagesscraper.utils.MD5Util;
 import com.kovospace.musicpagesscraper.utils.UrlUtil;
-import com.kovospace.musicpagesscraper.interfaces.Track;
-import com.kovospace.musicpagesscraper.scrapers.BandScraperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

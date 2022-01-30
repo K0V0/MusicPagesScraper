@@ -6,7 +6,7 @@ import com.kovospace.musicpagesscraper.interfaces.Bands;
 public  interface BandsScraper
         extends Bands
 {
-    String requestUrl(String searchedBand, String pageNum);
+    String requestUrl(String searchedBand, int pageNum);
     void init() throws PageException;
-    Bands fetch(String searchedBand, String pageNum) throws PageException;
+    Bands fetch(String searchedBand, int pageNum) throws PageException;
 }
