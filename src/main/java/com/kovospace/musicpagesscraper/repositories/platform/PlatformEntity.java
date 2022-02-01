@@ -18,6 +18,7 @@ public class PlatformEntity {
     private Long id;
 
     private String name;
+    private String platform;
     // TODO i18n
     private String description;
 

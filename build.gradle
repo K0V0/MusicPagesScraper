@@ -24,6 +24,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     runtimeOnly 'com.h2database:h2:1.4.200'
+    //flyway
+    implementation 'org.flywaydb:flyway-core'
     // libs
     implementation 'org.modelmapper:modelmapper:2.4.0'
     implementation 'com.google.code.gson:gson:2.8.9'
